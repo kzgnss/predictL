@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Connexion · Predictor</title>
+  <title>Connexion</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="wrap">
     <div class="card">
       <div class="head">
-        <div class="flag">🇨🇩</div>
-        <div class="h1" id="t">Congo WinKey</div>
-        <div class="h2" id="s">Signaux rapides · Fait pour Kinshasa · CDF</div>
+        <div class="logo">🧭</div>
+        <div class="h1" id="brand">Congo WinKey</div>
+        <div class="h2" id="sub">Activation externe • Fait pour Kinshasa • CDF</div>
 
         <div class="badges">
           <span class="badge gold">🔒 Secure</span>
@@ -39,12 +39,12 @@
 
         <div class="bottom">
           <div class="live"><span class="liveDot"></span> Accès privé</div>
-          <div class="timer">Session: <b>—</b></div>
+          <div class="timer">Session: <b id="timer">—</b></div>
         </div>
       </div>
 
       <div class="foot">
-        <span>18+ • Jeu responsable</span>
+        <span>18+ • Utilisation responsable</span>
         <span>Ce site ne traite aucun paiement</span>
       </div>
     </div>
@@ -54,16 +54,14 @@
   <script>
     const A = window.APP;
 
-    // brand text
-    document.getElementById("t").textContent = A.TITLE || "Congo WinKey";
-    document.getElementById("s").textContent = A.SUBTITLE || "";
+    document.getElementById("brand").textContent = A.BRAND;
+    document.getElementById("sub").textContent = A.SUBTITLE;
 
-    // session timer init (shared)
     const key = "expTs";
     if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, String(Date.now() + (A.ACCESS_TIMER_MIN || 8) * 60 * 1000));
+      sessionStorage.setItem(key, String(Date.now() + (A.SESSION_MIN || 8) * 60 * 1000));
     }
-    const timerEl = document.querySelector(".timer b");
+    const timerEl = document.getElementById("timer");
     function tick(){
       const exp = Number(sessionStorage.getItem(key) || 0);
       const left = Math.max(0, exp - Date.now());
