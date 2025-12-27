@@ -3,171 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portal · Login</title>
+  <title>Access · Login</title>
   <style>
-    :root{
-      --bg:#050816;
-      --card: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.12);
-      --text:#f8fafc;
-      --muted: rgba(248,250,252,.70);
-      --accent:#facc15;
-      --accent2:#f59e0b;
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
-      --radius:18px;
-      --danger:#fb7185;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 70% 20%, rgba(250,204,21,.10), transparent 55%),
-        radial-gradient(900px 700px at 20% 80%, rgba(245,158,11,.08), transparent 55%),
-        linear-gradient(180deg, #030614, #050816);
-      display:flex; align-items:center; justify-content:center;
-      padding:24px;
-    }
-    .wrap{width:min(820px,100%)}
-    .topbar{display:flex; align-items:center; gap:10px; margin-bottom:14px}
-    .logo{
-      width:38px; height:38px; border-radius:12px;
-      background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
-      box-shadow: 0 12px 30px rgba(250,204,21,.18);
-      position:relative;
-    }
-    .logo::after{
-      content:""; position:absolute; inset:7px; border-radius:10px;
-      background: linear-gradient(135deg, rgba(0,0,0,.25), rgba(255,255,255,.08));
-      border:1px solid rgba(255,255,255,.16);
-    }
-    h1{margin:0; font-size:15px; font-weight:1000}
-    p.top{margin:0; font-size:12px; color:var(--muted)}
-    .card{
-      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .cardHeader{padding:18px 18px 12px; border-bottom:1px solid rgba(255,255,255,.08)}
-    .title{margin:0; font-size:16px; font-weight:1000}
-    .subtitle{margin:6px 0 0; font-size:13px; color:var(--muted); line-height:1.45}
-    .content{padding:18px}
-    .field{
-      padding:12px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      margin-top:12px;
-    }
-    label{display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:900; margin-bottom:8px}
-    small{color:var(--muted); font-weight:800}
-    input{
-      width:100%;
-      padding:10px;
-      border-radius:12px;
-      background: rgba(0,0,0,.15);
-      border: 1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      outline: none;
-      font: inherit;
-    }
-    .btn{
-      width:100%;
-      border:0; border-radius:14px;
-      padding:14px;
-      font-weight:1000;
-      cursor:pointer;
-      color:#0b1220;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 16px 40px rgba(250,204,21,.22), 0 0 0 1px rgba(250,204,21,.30);
-      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
-      margin-top:12px;
-    }
-    .btn:hover{transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 50px rgba(250,204,21,.28), 0 0 0 1px rgba(250,204,21,.55)}
-    .btn:active{transform: translateY(0) scale(.99)}
-    .msg{
-      margin-top:12px;
-      padding:12px;
-      border-radius:14px;
-      font-size:13px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      display:none;
-    }
-    .msg.error{border-color: rgba(251,113,133,.35); background: rgba(251,113,133,.08)}
-    .note{
-      margin-top:12px;
-      padding:12px;
-      border-radius:14px;
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
+    :root{--bg:#050816;--card:rgba(255,255,255,.06);--border:rgba(255,255,255,.12);--text:#f8fafc;--muted:rgba(248,250,252,.7);--accent:#facc15;--accent2:#f59e0b;--danger:#fb7185;--shadow:0 18px 50px rgba(0,0,0,.45);--r:18px}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
+      background:radial-gradient(1200px 800px at 70% 20%, rgba(250,204,21,.10), transparent 55%),
+      radial-gradient(900px 700px at 20% 80%, rgba(245,158,11,.08), transparent 55%),
+      linear-gradient(180deg,#030614,#050816);
+      display:flex;align-items:center;justify-content:center;padding:24px}
+    .wrap{width:min(760px,100%)} .card{background:linear-gradient(180deg,var(--card),rgba(255,255,255,.04));border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+    .h{padding:18px 18px 12px;border-bottom:1px solid rgba(255,255,255,.08)} .title{margin:0;font-size:16px;font-weight:1000}
+    .sub{margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+    .c{padding:18px}
+    .field{margin-top:12px;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
+    label{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:900;margin-bottom:8px}
+    small{color:var(--muted);font-weight:800}
+    input{width:100%;padding:10px;border-radius:12px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.10);color:var(--text);outline:none;font:inherit}
+    .btn{width:100%;margin-top:12px;border:0;border-radius:14px;padding:14px;font-weight:1000;cursor:pointer;color:#0b1220;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 16px 40px rgba(250,204,21,.22),0 0 0 1px rgba(250,204,21,.30);
+      transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 20px 50px rgba(250,204,21,.28),0 0 0 1px rgba(250,204,21,.55)}
+    .msg{display:none;margin-top:12px;padding:12px;border-radius:14px;font-size:13px;border:1px solid rgba(251,113,133,.35);background:rgba(251,113,133,.08)}
+    .note{margin-top:12px;padding:12px;border-radius:14px;border:1px dashed rgba(255,255,255,.18);background:rgba(255,255,255,.03);color:var(--muted);font-size:12px;line-height:1.5}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="topbar">
-      <div class="logo"></div>
-      <div>
-        <h1>Deposit Portal</h1>
-        <p class="top">Авторизация → страница депозита (официальный редирект)</p>
-      </div>
-    </div>
-
     <div class="card">
-      <div class="cardHeader">
-        <h2 class="title">Вход</h2>
-        <p class="subtitle">Введите логин и пароль, чтобы перейти на страницу депозита.</p>
+      <div class="h">
+        <h2 class="title">Вход по личным данным</h2>
+        <p class="sub">Введите логин и пароль, которые вы получили в личном сообщении.</p>
       </div>
-
-      <div class="content">
+      <div class="c">
         <div class="field">
-          <label>Логин <small>EGPGOW</small></label>
-          <input id="login" placeholder="EGPGOW" autocomplete="off" />
+          <label>Логин <small>выдан лично</small></label>
+          <input id="login" placeholder="Ваш логин" autocomplete="off" />
         </div>
-
         <div class="field">
-          <label>Пароль <small>7775</small></label>
+          <label>Пароль <small>выдан лично</small></label>
           <input id="pass" type="password" placeholder="••••" autocomplete="off" />
         </div>
 
-        <button class="btn" id="loginBtn">🚀 Войти</button>
-        <div class="msg error" id="msg"></div>
+        <button class="btn" id="go">🚀 Продолжить</button>
+        <div class="msg" id="msg"></div>
 
         <div class="note">
-          🔞 18+. Ответственная игра. Эта страница не принимает платежи и не обрабатывает карты — далее будет переход на официальный сайт.
+          🔞 18+. Ответственная игра. Эта страница не принимает платежи и не обрабатывает карты.
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // простая “клиентская” защита (не серверная)
-    const LOGIN = "EGPGOW";
-    const PASS  = "7775";
+    // ВАРИАНТ 1 (простой): один общий логин/пароль (если ты так выдаёшь)
+    const DEMO_LOGIN = "EGPGOW";
+    const DEMO_PASS  = "7775";
 
-    // если уже вошёл — сразу на deposit.html
-    if (sessionStorage.getItem("authed") === "1") {
-      location.href = "./deposit.html";
-    }
+    // ВАРИАНТ 2 (правильнее для “личных” логинов): список пар
+    // const USERS = { "user123":"pass123", "user456":"pass456" };
 
     const msg = document.getElementById("msg");
-    const showErr = (t) => { msg.style.display="block"; msg.textContent=t; };
+    function err(t){ msg.style.display="block"; msg.textContent=t; }
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
+    document.getElementById("go").addEventListener("click", () => {
       const l = document.getElementById("login").value.trim();
       const p = document.getElementById("pass").value.trim();
+      if(!l || !p) return err("Заполните логин и пароль.");
 
-      if (!l || !p) return showErr("Заполните логин и пароль.");
-      if (l !== LOGIN || p !== PASS) return showErr("Неверный логин или пароль.");
+      // Проверка:
+      const ok = (l === DEMO_LOGIN && p === DEMO_PASS);
+      // для USERS было бы: const ok = USERS[l] && USERS[l] === p;
 
-      sessionStorage.setItem("authed", "1");
+      if(!ok) return err("Неверные данные. Проверьте логин/пароль из сообщения.");
+
+      sessionStorage.setItem("authed","1");
+      sessionStorage.setItem("user", l);
       location.href = "./deposit.html";
     });
   </script>
