@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deposit · 8000 CDF</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --text:#f8fafc;
+      --muted: rgba(248,250,252,.70);
+      --accent:#facc15;
+      --accent2:#f59e0b;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius:18px;
+      --ok:#34d399;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 70% 20%, rgba(250,204,21,.10), transparent 55%),
+        radial-gradient(900px 700px at 20% 80%, rgba(245,158,11,.08), transparent 55%),
+        linear-gradient(180deg, #030614, #050816);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+    }
+    .wrap{width:min(820px,100%)}
+    .topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px}
+    .brand{display:flex; align-items:center; gap:10px}
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(250,204,21,.18);
+      position:relative;
+    }
+    .logo::after{
+      content:""; position:absolute; inset:7px; border-radius:10px;
+      background: linear-gradient(135deg, rgba(0,0,0,.25), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.16);
+    }
+    h1{margin:0; font-size:15px; font-weight:1000}
+    p.top{margin:0; font-size:12px; color:var(--muted)}
+    .link{
+      color: rgba(250,204,21,.95);
+      text-decoration:none;
+      font-weight:1000;
+      font-size:12px;
+    }
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHeader{padding:18px 18px 12px; border-bottom:1px solid rgba(255,255,255,.08)}
+    .title{margin:0; font-size:16px; font-weight:1000}
+    .subtitle{margin:6px 0 0; font-size:13px; color:var(--muted); line-height:1.45}
+    .content{padding:18px}
+    .box{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      margin-top:12px;
+    }
+    .big{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(250,204,21,.35);
+      background: rgba(250,204,21,.08);
+      margin-top:12px;
+    }
+    .big strong{font-size:18px}
+    .badge{
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(52,211,153,.10);
+      border:1px solid rgba(52,211,153,.28);
+      color: rgba(52,211,153,.95);
+      font-size:12px;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+    .btn{
+      width:100%;
+      border:0; border-radius:14px;
+      padding:14px;
+      font-weight:1000;
+      cursor:pointer;
+      color:#0b1220;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 16px 40px rgba(250,204,21,.22), 0 0 0 1px rgba(250,204,21,.30);
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+      margin-top:12px;
+    }
+    .btn:hover{transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 50px rgba(250,204,21,.28), 0 0 0 1px rgba(250,204,21,.55)}
+    .btn:active{transform: translateY(0) scale(.99)}
+    .btn.secondary{
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+    }
+    .note{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>Deposit Portal</h1>
+          <p class="top">Требуется депозит → переход на официальный 1xBet</p>
+        </div>
+      </div>
+      <a class="link" href="#" id="logout">Выйти</a>
+    </div>
+
+    <div class="card">
+      <div class="cardHeader">
+        <h2 class="title">Обязательный депозит</h2>
+        <p class="subtitle">Для продолжения необходимо внести депозит на официальном сайте 1xBet.</p>
+      </div>
+
+      <div class="content">
+        <div class="big">
+          <div>
+            <div style="font-size:12px;color:rgba(248,250,252,.75);font-weight:900">Сумма депозита</div>
+            <strong>8 000 CDF</strong>
+          </div>
+          <div class="badge">OFFICIAL REDIRECT</div>
+        </div>
+
+        <div class="box">
+          <div style="font-weight:1000; font-size:13px">Что делать:</div>
+          <div style="margin-top:8px; color:rgba(248,250,252,.75); font-size:13px; line-height:1.55">
+            1) Нажмите кнопку ниже<br/>
+            2) Вас перенаправит на официальный 1xBet<br/>
+            3) Пополните баланс на <b>8 000 CDF</b>
+          </div>
+
+          <button class="btn" id="goBtn">🔗 Перейти на 1xBet (официально)</button>
+          <button class="btn secondary" id="backBtn">← Назад</button>
+
+          <div class="note">
+            🔞 18+. Ответственная игра. Эта страница не принимает платежи — только перенаправляет на официальный сайт.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // защита страницы
+    if (sessionStorage.getItem("authed") !== "1") {
+      location.href = "./index.html";
+    }
+
+    // ВСТАВЬ СЮДА свою официальную партнёрскую ссылку 1xBet:
+    const OFFICIAL_1XBET_URL = "https://example.com/your-official-1xbet-partner-link";
+
+    document.getElementById("goBtn").addEventListener("click", () => {
+      // открываем в новой вкладке
+      window.open(OFFICIAL_1XBET_URL, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      location.href = "./index.html";
+    });
+
+    document.getElementById("logout").addEventListener("click", (e) => {
+      e.preventDefault();
+      sessionStorage.removeItem("authed");
+      location.href = "./index.html";
+    });
+  </script>
+</body>
+</html>
