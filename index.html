@@ -12,7 +12,7 @@
       <div class="head">
         <div class="logo">🧭</div>
         <div class="h1" id="brand">Congo WinKey</div>
-        <div class="h2" id="sub">Activation externe • Fait pour Kinshasa • CDF</div>
+        <div class="h2" id="sub">Accès privé • Fait pour Kinshasa • CDF</div>
 
         <div class="badges">
           <span class="badge gold">🔒 Secure</span>
@@ -58,11 +58,17 @@
     document.getElementById("sub").textContent = A.SUBTITLE;
 
     const key = "expTs";
-    if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, String(Date.now() + (A.SESSION_MIN || 8) * 60 * 1000));
+    function ensureExp(){
+      const now = Date.now();
+      const cur = Number(sessionStorage.getItem(key) || 0);
+      const dur = (A.SESSION_MIN || 8) * 60 * 1000;
+      if (!cur || cur < now) sessionStorage.setItem(key, String(now + dur));
     }
+    ensureExp();
+
     const timerEl = document.getElementById("timer");
     function tick(){
+      ensureExp();
       const exp = Number(sessionStorage.getItem(key) || 0);
       const left = Math.max(0, exp - Date.now());
       const mm = String(Math.floor(left/60000)).padStart(2,"0");
