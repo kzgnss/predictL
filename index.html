@@ -3,43 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Predictor · Accès</title>
+  <title>Predictor · Connexion</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <div class="shell">
-      <div class="card">
-        <div class="head">
-          <div class="brand">
-            <div class="logo"></div>
-            <div class="hgroup">
-              <h1 id="brand">Predictor Access · Kinshasa</h1>
-              <p id="tag">Aviator • Mines • Penalty • Chicken Road • Apple Fortune</p>
-            </div>
-          </div>
-          <div class="pills">
-            <span class="pill gold">🔒 Accès privé</span>
-            <span class="pill ok">✅ Redirection officielle</span>
+  <div class="container">
+    <div class="frame">
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1 id="brand">Predictor Pro · Kinshasa</h1>
+            <p id="tag">Aviator • Mines • Penalty • Chicken Road • Apple Fortune</p>
           </div>
         </div>
+        <div class="meta">
+          <span class="badge gold">🔒 Accès privé</span>
+          <span class="badge green">✅ Lien officiel</span>
+          <span class="badge blue">📍 Kinshasa</span>
+        </div>
+      </div>
 
-        <div class="body">
+      <div class="main">
+        <!-- Left: product -->
+        <div class="card">
           <div class="hero">
-            <div class="kicker">KINSHASA (RDC)</div>
-            <h2>Connexion à votre espace Predictor</h2>
+            <div class="kicker">ESPACE CLIENT</div>
+            <h2>Connectez-vous avec vos identifiants</h2>
             <p class="lead">
-              Entrez votre <b>login</b> et <b>mot de passe</b> reçus en message privé.
-              Ensuite, vous verrez les étapes d’activation et le lien officiel.
+              Saisissez le <b>login</b> et le <b>mot de passe</b> reçus en message privé.
+              Ensuite, vous verrez l’étape d’activation (dépôt sur le site officiel).
             </p>
           </div>
 
-          <div class="grid" aria-label="games">
-            <div class="game"><b>Aviator</b><div class="icon">✈️</div></div>
-            <div class="game"><b>Mines</b><div class="icon">💣</div></div>
-            <div class="game"><b>Penalty</b><div class="icon">⚽</div></div>
-            <div class="game"><b>Chicken Road</b><div class="icon">🐔</div></div>
-            <div class="game"><b>Apple Fortune</b><div class="icon">🍏</div></div>
+          <div class="games">
+            <div class="g"><i>✈️</i> Aviator</div>
+            <div class="g"><i>💣</i> Mines</div>
+            <div class="g"><i>⚽</i> Penalty</div>
+            <div class="g"><i>🐔</i> Chicken Road</div>
+            <div class="g"><i>🍏</i> Apple Fortune</div>
           </div>
 
           <div class="form">
@@ -54,41 +56,43 @@
             </div>
 
             <button class="btn" id="go">Continuer</button>
-            <div class="msg" id="msg"></div>
+            <div class="alert" id="msg"></div>
+          </div>
+        </div>
 
-            <div class="footer">
-              <span>18+ • Jeu responsable</span>
-              <span>Ce site ne traite aucun paiement</span>
+        <!-- Right: steps -->
+        <div class="card">
+          <div class="side">
+            <div class="block">
+              <div class="kicker">COMMENT ÇA MARCHE</div>
+
+              <div class="step">
+                <b>1) Connexion</b>
+                <span>Accès avec vos identifiants personnels.</span>
+              </div>
+
+              <div class="step">
+                <b>2) Activation</b>
+                <span>Dépôt requis via redirection vers le site officiel.</span>
+              </div>
+
+              <div class="step">
+                <b>3) Confirmation</b>
+                <span>Après le dépôt, envoyez la capture d’écran (preuve de recharge).</span>
+              </div>
+
+              <div class="step">
+                <b>Support</b>
+                <span>Validation rapide via Telegram / WhatsApp.</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- SIDE PANEL -->
-      <div class="panel">
-        <div class="phead">
-          <h3>Comment ça marche</h3>
-          <p>Simple, clair, et sans paiement sur ce site.</p>
-        </div>
-        <div class="pbody">
-          <div class="step">
-            <b>1) Connexion</b>
-            <span>Utilisez vos identifiants personnels (login + mot de passe).</span>
-          </div>
-          <div class="step">
-            <b>2) Activation</b>
-            <span>Vous serez invité à effectuer le dépôt requis sur le site officiel (via lien partenaire).</span>
-          </div>
-          <div class="step">
-            <b>3) Confirmation</b>
-            <span>Après le dépôt, envoyez votre capture d’écran (preuve de recharge) pour validation.</span>
-          </div>
-
-          <div class="footer" style="margin-top:14px">
-            <span>📍 Kinshasa</span>
-            <span>🔐 Accès contrôlé</span>
-          </div>
-        </div>
+      <div class="footer">
+        <span>18+ • Jeu responsable</span>
+        <span>Ce site ne traite aucun paiement</span>
       </div>
     </div>
   </div>
@@ -101,11 +105,11 @@
       location.href = "./activation.html";
     }
 
-    document.getElementById("brand").textContent = A.BRAND || "Predictor Access · Kinshasa";
+    document.getElementById("brand").textContent = A.BRAND || "Predictor Pro · Kinshasa";
     document.getElementById("tag").textContent = A.TAGLINE || "";
 
     const msg = document.getElementById("msg");
-    const show = (t) => { msg.style.display = "block"; msg.textContent = t; };
+    const show = (t) => { msg.style.display="block"; msg.textContent=t; };
 
     document.getElementById("go").addEventListener("click", () => {
       const l = document.getElementById("login").value.trim();
@@ -114,7 +118,7 @@
       if (!l || !p) return show("Veuillez saisir votre login et votre mot de passe.");
       if (l !== A.LOGIN || p !== A.PASS) return show("Identifiants incorrects. Vérifiez le message reçu.");
 
-      sessionStorage.setItem("authed", "1");
+      sessionStorage.setItem("authed","1");
       sessionStorage.setItem("user", l);
       location.href = "./activation.html";
     });
