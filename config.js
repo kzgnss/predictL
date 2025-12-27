@@ -7,10 +7,10 @@ window.APP = {
   PASS: "7775",
 
   // External official link (put your partner/official URL)
-  OFFICIAL_URL: "https://example.com",
+  OFFICIAL_URL: "https://reffpa.com/L?tag=d_2843259m_97c_&site=2843259&ad=97",
 
   // Telegram support username without "@"
-  TELEGRAM_USERNAME: "YourSupportBot",
+  TELEGRAM_USERNAME: "Caleb_Hack_bot",
 
   // Required amount display
   AMOUNT: 8000,
