@@ -3,8 +3,8 @@ window.APP = {
   SUBTITLE: "Accès privé • Fait pour Kinshasa • CDF",
 
   // Login access
-  LOGIN: "EGPGOW",
-  PASS: "7775",
+  LOGIN: "User228",
+  PASS: "4711",
 
   // External official link (put your partner/official URL)
   OFFICIAL_URL: "https://reffpa.com/L?tag=d_2843259m_97c_&site=2843259&ad=97",
