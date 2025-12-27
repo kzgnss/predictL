@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Activation · Deposit</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <div class="brand">
+          <div class="dot"></div>
+          <div>
+            <h1 id="brand">Activation</h1>
+            <div class="sub">Депозит выполняется на официальном сайте 1xBet.</div>
+          </div>
+        </div>
+        <a class="link" href="#" id="logout">Выйти</a>
+      </div>
+
+      <div class="body">
+        <div class="pill">Пользователь: <span id="u">—</span></div>
+
+        <div class="amount">
+          <div>
+            <div class="sub" style="margin:0">Обязательный депозит</div>
+            <b id="amt">8 000 CDF</b>
+          </div>
+          <div class="pill">Official redirect</div>
+        </div>
+
+        <div class="sub" style="margin-top:12px">
+          1) Перейдите на 1xBet по кнопке ниже<br/>
+          2) Пополните созданный вами аккаунт на указанную сумму<br/>
+          3) Отправьте мне скриншот пополнения
+        </div>
+
+        <button class="btn" id="go1xbet">Перейти на 1xBet</button>
+
+        <div class="row">
+          <button class="btn secondary" id="tg">Отправить скрин в Telegram</button>
+          <button class="btn secondary" id="wa">WhatsApp</button>
+        </div>
+
+        <div class="field">
+          <label>Подсказка</label>
+          <div class="sub" style="margin:0">
+            На GitHub Pages сайт не может “принять файл” без сервера.
+            Поэтому кнопки выше открывают чат, где вы отправляете скриншот вручную.
+          </div>
+        </div>
+
+        <button class="btn secondary" id="back">Назад</button>
+
+        <div class="msg ok" id="ok"></div>
+
+        <div class="note">
+          <span>18+ • Ответственная игра</span>
+          <span>Платежи только на 1xBet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    const A = window.APP;
+
+    if (sessionStorage.getItem("authed") !== "1") {
+      location.href = "./index.html";
+    }
+
+    document.getElementById("brand").textContent = A.BRAND || "Activation";
+    document.getElementById("u").textContent = sessionStorage.getItem("user") || "—";
+
+    const amtText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("ru-RU")} ${A.CURRENCY || "CDF"}`;
+    document.getElementById("amt").textContent = amtText;
+
+    document.getElementById("go1xbet").addEventListener("click", ()=>{
+      window.open(A.OFFICIAL_1XBET_URL, "_blank", "noopener,noreferrer");
+    });
+
+    // Telegram: открываем чат + готовый текст
+    document.getElementById("tg").addEventListener("click", ()=>{
+      const user = sessionStorage.getItem("user") || "";
+      const text = encodeURIComponent(`Сделал депозит ${amtText}. Логин: ${user}. Отправляю скриншот пополнения.`);
+      const url = `https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    // WhatsApp: открываем чат + готовый текст
+    document.getElementById("wa").addEventListener("click", ()=>{
+      const user = sessionStorage.getItem("user") || "";
+      const text = encodeURIComponent(`Сделал депозит ${amtText}. Логин: ${user}. Отправляю скриншот пополнения.`);
+      const url = `https://wa.me/${A.WHATSAPP_NUMBER}?text=${text}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("back").addEventListener("click", ()=> location.href="./index.html");
+
+    document.getElementById("logout").addEventListener("click", (e)=>{
+      e.preventDefault();
+      sessionStorage.clear();
+      location.href = "./index.html";
+    });
+  </script>
+</body>
+</html>
