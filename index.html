@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Access · Login</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <div class="brand">
+          <div class="dot"></div>
+          <div>
+            <h1 id="brand">Predictor Access</h1>
+            <div class="sub">Вход по логину и паролю, выданным лично.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="row">
+          <span class="pill">✈️ Aviator</span>
+          <span class="pill">💣 Mines</span>
+        </div>
+        <div class="row">
+          <span class="pill">⚽ Penalty</span>
+          <span class="pill">🔒 Private Access</span>
+        </div>
+
+        <div class="field">
+          <label>Логин</label>
+          <input id="login" placeholder="Ваш логин" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label>Пароль</label>
+          <input id="pass" type="password" placeholder="••••" autocomplete="off" />
+        </div>
+
+        <button class="btn" id="go">Продолжить</button>
+        <div class="msg error" id="msg"></div>
+
+        <div class="note">
+          <span>18+ • Ответственная игра</span>
+          <span>Сайт не принимает платежи</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    const A = window.APP;
+
+    if (sessionStorage.getItem("authed") === "1") {
+      location.href = "./deposit.html";
+    }
+
+    document.getElementById("brand").textContent = A.BRAND || "Predictor Access";
+
+    const msg = document.getElementById("msg");
+    const showErr = (t)=>{ msg.style.display="block"; msg.textContent=t; };
+
+    document.getElementById("go").addEventListener("click", ()=>{
+      const l = document.getElementById("login").value.trim();
+      const p = document.getElementById("pass").value.trim();
+
+      if(!l || !p) return showErr("Заполните логин и пароль.");
+      if(l !== A.LOGIN || p !== A.PASS) return showErr("Неверные данные доступа.");
+
+      sessionStorage.setItem("authed","1");
+      sessionStorage.setItem("user", l);
+      location.href = "./deposit.html";
+    });
+  </script>
+</body>
+</html>
