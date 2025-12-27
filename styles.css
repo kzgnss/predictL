@@ -5,14 +5,12 @@
   --muted:rgba(245,247,255,.68);
   --muted2:rgba(245,247,255,.52);
 
-  --card:rgba(255,255,255,.06);
   --border:rgba(255,255,255,.10);
 
   --gold:#FACC15;
   --orange:#FB923C;
   --blue:#60A5FA;
   --green:#22C55E;
-  --red:#FB7185;
 
   --shadow:0 28px 90px rgba(0,0,0,.65);
   --r:22px;
@@ -36,7 +34,8 @@ body{
   padding:28px;
 }
 
-.wrap{width:min(760px,100%)}
+.wrap{width:min(820px,100%)}
+
 .card{
   border-radius: var(--r);
   border:1px solid var(--border);
@@ -52,9 +51,9 @@ body{
   border-bottom:1px solid rgba(255,255,255,.07);
 }
 
-.flag{
-  width:34px;height:34px;
-  border-radius:12px;
+.logo{
+  width:40px;height:40px;
+  border-radius:14px;
   display:grid;place-items:center;
   margin:0 auto 10px;
   border:1px solid rgba(255,255,255,.14);
@@ -62,17 +61,8 @@ body{
   font-size:18px;
 }
 
-.h1{
-  margin:0;
-  font-size:20px;
-  font-weight:1100;
-  letter-spacing:.2px;
-}
-.h2{
-  margin:8px 0 0;
-  font-size:13px;
-  color:var(--muted);
-}
+.h1{margin:0;font-size:20px;font-weight:1100;letter-spacing:.2px}
+.h2{margin:8px 0 0;font-size:13px;color:var(--muted)}
 
 .badges{
   margin-top:14px;
@@ -81,11 +71,8 @@ body{
   flex-wrap:wrap;
   justify-content:center;
 }
-
 .badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
+  display:inline-flex;align-items:center;gap:8px;
   padding:8px 10px;
   border-radius:999px;
   border:1px solid rgba(255,255,255,.12);
@@ -115,10 +102,7 @@ body{
 @media (max-width:640px){ .games{grid-template-columns:1fr} }
 
 .opt{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:12px 12px;
   border-radius: var(--r2);
   border:1px solid rgba(255,255,255,.10);
@@ -148,10 +132,7 @@ body{
   background:rgba(0,0,0,.16);
 }
 .field label{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
   margin-bottom:8px;
   font-size:12px;
   font-weight:1000;
@@ -209,14 +190,6 @@ input::placeholder{color:rgba(245,247,255,.42)}
   box-shadow:none;
 }
 
-.row2{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:10px;
-  margin-top:10px;
-}
-@media (max-width:640px){ .row2{grid-template-columns:1fr} }
-
 .alert{
   display:none;
   margin-top:12px;
@@ -226,10 +199,6 @@ input::placeholder{color:rgba(245,247,255,.42)}
   border:1px solid rgba(251,113,133,.25);
   background: rgba(251,113,133,.10);
   color: rgba(245,247,255,.92);
-}
-.alert.ok{
-  border-color: rgba(34,197,94,.25);
-  background: rgba(34,197,94,.10);
 }
 
 .bottom{
@@ -242,21 +211,14 @@ input::placeholder{color:rgba(245,247,255,.42)}
   color: rgba(245,247,255,.56);
   font-size:12px;
 }
-.live{
-  display:flex; align-items:center; gap:8px;
-}
-.live .liveDot{
+.live{display:flex; align-items:center; gap:8px;}
+.liveDot{
   width:8px;height:8px;border-radius:999px;
   background: var(--green);
   box-shadow: 0 0 0 6px rgba(34,197,94,.12);
 }
-.timer{
-  display:flex; align-items:center; gap:8px;
-}
-.timer b{
-  font-size:12.5px;
-  color: rgba(245,247,255,.82);
-}
+.timer{display:flex; align-items:center; gap:8px;}
+.timer b{font-size:12.5px;color: rgba(245,247,255,.82)}
 
 .foot{
   padding:14px 22px;
@@ -272,4 +234,119 @@ a.link{
   color: rgba(250,204,21,.95);
   text-decoration:none;
   font-weight:1000;
+}
+
+/* ===== MODAL (best UX) ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background: rgba(0,0,0,.58);
+  z-index:999;
+}
+.modalCard{
+  width:min(640px,100%);
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  box-shadow: 0 30px 90px rgba(0,0,0,.70);
+  overflow:hidden;
+  backdrop-filter: blur(12px);
+  animation: pop .18s ease-out forwards;
+}
+@keyframes pop{from{transform:translateY(8px) scale(.985);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+
+.modalHead{
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(900px 260px at 20% 0%, rgba(250,204,21,.14), transparent 58%),
+    radial-gradient(900px 260px at 85% 0%, rgba(96,165,250,.12), transparent 58%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+}
+.modalHead b{font-size:18px;font-weight:1200;letter-spacing:.2px}
+.modalClose{
+  border:0;
+  cursor:pointer;
+  width:44px;height:44px;
+  border-radius:14px;
+  color: rgba(245,247,255,.90);
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  font-size:22px;
+}
+
+.modalBody{padding:16px 18px 18px}
+
+.modalText{
+  margin:0 0 12px;
+  color: rgba(245,247,255,.92);
+  font-size: 16.5px;
+  line-height: 1.6;
+  font-weight: 900;
+}
+
+/* Big amount */
+.amountPill{
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(250,204,21,.28);
+  background: linear-gradient(90deg, rgba(250,204,21,.16), rgba(34,197,94,.12));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.amountPill .left{display:flex;flex-direction:column;gap:4px}
+.amountPill .k{
+  font-size: 12px;
+  font-weight: 1000;
+  color: rgba(245,247,255,.72);
+  letter-spacing: .4px;
+}
+.amountPill .v{
+  font-size: 30px;
+  font-weight: 1300;
+  letter-spacing: .2px;
+}
+.amountPill .tag{
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  font-size:12px;
+  font-weight:1000;
+  color: rgba(245,247,255,.82);
+}
+
+.modalActions{display:grid; gap:10px; margin-top: 12px}
+
+.modalHint{
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(34,197,94,.25);
+  background: rgba(34,197,94,.10);
+  color: rgba(245,247,255,.92);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.modalSmall{
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: rgba(245,247,255,.52);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
 }
