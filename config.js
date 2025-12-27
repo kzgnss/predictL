@@ -1,33 +1,35 @@
 window.APP = {
-  // Brand / locale
-  COUNTRY: "RDC · Kinshasa",
-  TITLE: "Congo WinKey",
-  SUBTITLE: "Signaux rapides · Fait pour Kinshasa · CDF",
+  BRAND: "Congo WinKey",
+  SUBTITLE: "Activation externe • Fait pour Kinshasa • CDF",
 
-  // Access (simple: 1 login/pass). Для персональных логинов нужен сервер.
   LOGIN: "EGPGOW",
   PASS: "7775",
 
-  // 1xBet redirect (официальная партнёрская ссылка)
-  OFFICIAL_1XBET_URL: "https://example.com/your-official-1xbet-partner-link",
+  // External official partner link
+  OFFICIAL_URL: "https://example.com/your-official-partner-link",
 
-  // Deposit
-  DEPOSIT_AMOUNT: 8000,
+  // Activation amount shown prominently in modal
+  AMOUNT: 8000,
   CURRENCY: "CDF",
 
-  // Account ID validation
-  ACCOUNT_ID_LENGTH: 10,
-  // Если надо требовать префикс, например "147":
-  REQUIRED_PREFIX: "",
+  // ID validation
+  ID_LENGTH: 10,
+  REQUIRED_PREFIX: "", // e.g. "147" if needed
 
-  // Where user sends screenshot
-  TELEGRAM_USERNAME: "YourBotOrManager", // без @
-  WHATSAPP_NUMBER: "243000000000",       // без +
+  TELEGRAM_USERNAME: "YourBotOrManager", // without @
 
-  // “Daily players” you stated
-  DAILY_PLAYERS_MIN: 930,
-  DAILY_PLAYERS_MAX: 1100,
+  DAILY_MIN: 930,
+  DAILY_MAX: 1100,
 
-  // Session countdown (minutes)
-  ACCESS_TIMER_MIN: 8
+  SESSION_MIN: 8,
+
+  // “Modules” shown in UI (rename as you want, neutral)
+  MODULES: [
+    { key: "Module A", icon: "⚡" },
+    { key: "Module B", icon: "🧩" },
+    { key: "Module C", icon: "🧠" },
+    { key: "Module D", icon: "📊" },
+    { key: "Module E", icon: "🔒" },
+    { key: "Module F", icon: "🛰️" }
+  ]
 };
