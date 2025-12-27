@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Access · Login</title>
+  <title>Predictor Access · Login</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -14,9 +14,10 @@
           <div class="dot"></div>
           <div>
             <h1 id="brand">Predictor Access</h1>
-            <div class="sub">Вход по логину и паролю, выданным лично.</div>
+            <div class="sub">Aviator · Mines · Penalty</div>
           </div>
         </div>
+        <span class="pill">🔒 Private</span>
       </div>
 
       <div class="body">
@@ -26,7 +27,21 @@
         </div>
         <div class="row">
           <span class="pill">⚽ Penalty</span>
-          <span class="pill">🔒 Private Access</span>
+          <span class="pill">⚡ Fast access</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="k">В сутки играют</div>
+            <div class="v" id="dailyRange">—</div>
+            <div class="s">По внутренней статистике</div>
+          </div>
+
+          <div class="stat" id="estCard" style="display:none">
+            <div class="k">Активность сейчас</div>
+            <div class="v" id="estNow">—</div>
+            <div class="s">Оценка, не real-time</div>
+          </div>
         </div>
 
         <div class="field">
@@ -44,7 +59,7 @@
 
         <div class="note">
           <span>18+ • Ответственная игра</span>
-          <span>Сайт не принимает платежи</span>
+          <span>Платежей на сайте нет</span>
         </div>
       </div>
     </div>
@@ -54,19 +69,66 @@
   <script>
     const A = window.APP;
 
-    if (sessionStorage.getItem("authed") === "1") {
-      location.href = "./deposit.html";
-    }
-
+    if (sessionStorage.getItem("authed") === "1") location.href = "./deposit.html";
     document.getElementById("brand").textContent = A.BRAND || "Predictor Access";
 
+    // ЧЕСТНЫЙ диапазон “в сутки”
+    const min = Number(A.DAILY_PLAYERS_MIN || 930);
+    const max = Number(A.DAILY_PLAYERS_MAX || 1100);
+    document.getElementById("dailyRange").textContent =
+      `${min.toLocaleString("ru-RU")}–${max.toLocaleString("ru-RU")}`;
+
+    // Оценка активности сейчас (НЕ real-time): аккуратная, без “онлайн”
+    function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+    function mulberry32(seed){
+      return function(){
+        seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+        let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+    function estimateNow(){
+      const now = new Date();
+      const h = now.getHours() + now.getMinutes()/60;
+
+      // Профиль активности (условный): низко ночью, выше вечером
+      // (это не “реальный онлайн”, а оценка)
+      const peak1 = Math.exp(-Math.pow((h - 13.5)/3.2, 2)); // дневной пик
+      const peak2 = Math.exp(-Math.pow((h - 20.5)/3.0, 2)); // вечерний пик
+      let intensity = 0.12 + 0.55*peak1 + 0.75*peak2;      // 0..~1.4
+      intensity = clamp(intensity, 0.10, 1.00);
+
+      // оцениваем долю активных от суточной аудитории: 4%..12%
+      const activeShare = 0.04 + 0.08*intensity;
+
+      // “сегодняшняя аудитория” как среднее из диапазона
+      const dailyMid = (min + max)/2;
+
+      // небольшой стабильный шум (меняется по часу)
+      const seed = now.getFullYear()*1000000 + (now.getMonth()+1)*10000 + now.getDate()*100 + now.getHours();
+      const rnd = mulberry32(seed)();
+      const jitter = 0.92 + rnd*0.16; // 0.92..1.08
+
+      const est = Math.round(dailyMid * activeShare * jitter);
+      return clamp(est, 15, Math.round(max*0.15));
+    }
+
+    if (A.SHOW_ACTIVITY_ESTIMATE) {
+      document.getElementById("estCard").style.display = "block";
+      const el = document.getElementById("estNow");
+      const tick = () => { el.textContent = `~ ${estimateNow().toLocaleString("ru-RU")}`; };
+      tick();
+      setInterval(tick, 20000);
+    }
+
+    // Логин
     const msg = document.getElementById("msg");
     const showErr = (t)=>{ msg.style.display="block"; msg.textContent=t; };
 
     document.getElementById("go").addEventListener("click", ()=>{
       const l = document.getElementById("login").value.trim();
       const p = document.getElementById("pass").value.trim();
-
       if(!l || !p) return showErr("Заполните логин и пароль.");
       if(l !== A.LOGIN || p !== A.PASS) return showErr("Неверные данные доступа.");
 
