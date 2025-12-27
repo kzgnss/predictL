@@ -54,8 +54,8 @@
   <script>
     const A = window.APP;
 
-    document.getElementById("brand").textContent = A.BRAND;
-    document.getElementById("sub").textContent = A.SUBTITLE;
+    document.getElementById("brand").textContent = A.BRAND || "Congo WinKey";
+    document.getElementById("sub").textContent = A.SUBTITLE || "";
 
     const key = "expTs";
     function ensureExp(){
