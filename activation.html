@@ -7,80 +7,93 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="wrap">
-    <div class="shell">
-      <div class="card">
-        <div class="head">
-          <div class="brand">
-            <div class="logo"></div>
-            <div class="hgroup">
-              <h1 id="brand">Activation · Kinshasa</h1>
-              <p>Le dépôt se fait uniquement sur le site officiel.</p>
-            </div>
-          </div>
-          <div class="pills">
-            <span class="pill">👤 <span id="u">—</span></span>
-            <a class="link" href="#" id="logout">Déconnexion</a>
+  <div class="container">
+    <div class="frame">
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1 id="brand">Activation · Kinshasa</h1>
+            <p>Dépôt uniquement sur le site officiel (ce site ne prend aucun paiement)</p>
           </div>
         </div>
+        <div class="meta">
+          <span class="badge">👤 <span id="u">—</span></span>
+          <a class="link" href="#" id="logout">Déconnexion</a>
+        </div>
+      </div>
 
-        <div class="body">
+      <div class="main">
+        <!-- Left -->
+        <div class="card">
           <div class="hero">
-            <div class="kicker">ÉTAPE D’ACTIVATION</div>
-            <h2>Dépôt requis</h2>
+            <div class="kicker">ACTIVATION</div>
+            <h2>Dépôt requis pour activer l’accès</h2>
             <p class="lead">
-              Pour activer l’accès, effectuez un premier dépôt sur votre compte 1xBet
-              via le lien officiel ci-dessous.
+              Effectuez un premier dépôt sur le compte 1xBet que vous avez créé.
+              Ensuite, envoyez la capture d’écran du dépôt pour validation.
             </p>
           </div>
 
-          <div class="amountBox">
-            <div>
-              <div class="k">Montant</div>
-              <div class="v" id="amt">8 000 CDF</div>
+          <div class="form">
+            <div class="amount">
+              <div>
+                <div class="k">Montant</div>
+                <div class="v" id="amt">8 000 CDF</div>
+              </div>
+              <span class="badge gold">Official redirect</span>
             </div>
-            <span class="pill ok">Official redirect</span>
+
+            <button class="btn" id="go1xbet">Aller sur 1xBet (officiel)</button>
+
+            <div class="row2">
+              <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
+              <button class="btn secondary" id="wa">Envoyer la capture (WhatsApp)</button>
+            </div>
           </div>
+        </div>
 
-          <button class="btn" id="go1xbet">Aller sur 1xBet (officiel)</button>
+        <!-- Right -->
+        <div class="card">
+          <div class="side">
+            <div class="block">
+              <div class="kicker">ÉTAPES</div>
 
-          <div class="row2">
-            <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
-            <button class="btn secondary" id="wa">Envoyer la capture (WhatsApp)</button>
-          </div>
+              <div class="step">
+                <b>1) Ouvrir 1xBet</b>
+                <span>Cliquez sur “Aller sur 1xBet (officiel)”.</span>
+              </div>
 
-          <div class="footer">
-            <span>18+ • Jeu responsable</span>
-            <span>Aucun paiement sur ce site</span>
+              <div class="step">
+                <b>2) Déposer <span id="amt2">8 000 CDF</span></b>
+                <span>Faites le dépôt sur votre compte créé.</span>
+              </div>
+
+              <div class="step">
+                <b>3) Envoyer la preuve</b>
+                <span>Envoyez la capture d’écran du dépôt via Telegram/WhatsApp.</span>
+              </div>
+
+              <div class="step">
+                <b>Validation</b>
+                <span>Après réception, votre accès est confirmé.</span>
+              </div>
+            </div>
+
+            <div class="block" style="margin-top:12px">
+              <div class="kicker">NOTE</div>
+              <p style="margin:10px 0 0; color: rgba(245,247,255,.60); font-size:12.5px; line-height:1.6">
+                Ce site ne vérifie pas automatiquement votre dépôt et ne traite aucun paiement.
+                La confirmation se fait via preuve (capture).
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- SIDE PANEL -->
-      <div class="panel">
-        <div class="phead">
-          <h3>Après le dépôt</h3>
-          <p>Envoyez une preuve de recharge pour finaliser l’activation.</p>
-        </div>
-        <div class="pbody">
-          <div class="step">
-            <b>1) Ouvrir 1xBet</b>
-            <span>Cliquez sur “Aller sur 1xBet (officiel)”.</span>
-          </div>
-          <div class="step">
-            <b>2) Déposer <span id="amt2">8 000 CDF</span></b>
-            <span>Effectuez le dépôt sur le compte que vous avez créé.</span>
-          </div>
-          <div class="step">
-            <b>3) Envoyer la capture</b>
-            <span>Envoyez la capture d’écran du dépôt (preuve) via Telegram ou WhatsApp.</span>
-          </div>
-
-          <div class="footer" style="margin-top:14px">
-            <span>📍 Kinshasa</span>
-            <span>✅ Support rapide</span>
-          </div>
-        </div>
+      <div class="footer">
+        <span>18+ • Jeu responsable</span>
+        <span>Paiements uniquement sur 1xBet</span>
       </div>
     </div>
   </div>
@@ -88,10 +101,7 @@
   <script src="./config.js"></script>
   <script>
     const A = window.APP;
-
-    if (sessionStorage.getItem("authed") !== "1") {
-      location.href = "./index.html";
-    }
+    if (sessionStorage.getItem("authed") !== "1") location.href = "./index.html";
 
     document.getElementById("brand").textContent = A.BRAND || "Activation · Kinshasa";
     document.getElementById("u").textContent = sessionStorage.getItem("user") || "—";
