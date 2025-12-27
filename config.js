@@ -1,22 +1,19 @@
 window.APP = {
-  BRAND: "Predictor Access",
-  OFFICIAL_1XBET_URL: "https://example.com/your-official-1xbet-partner-link", // <-- вставь
+  BRAND: "Predictor Access · Kinshasa",
+  TAGLINE: "Aviator • Mines • Penalty • Chicken Road • Apple Fortune",
 
-  // Если у каждого будет личный логин/пароль — это надо делать через сервер.
-  // Тут простой вариант (одна пара):
+  // ВСТАВЬ официальный партнёрский линк 1xBet:
+  OFFICIAL_1XBET_URL: "https://example.com/your-official-1xbet-partner-link",
+
+  // Логин/пароль (если ты выдаёшь одну пару):
   LOGIN: "EGPGOW",
   PASS: "7775",
 
+  // Депозит:
   DEPOSIT_AMOUNT: 8000,
   CURRENCY: "CDF",
 
+  // Куда слать скрин:
   TELEGRAM_USERNAME: "YourBotOrManager", // без @
-  WHATSAPP_NUMBER: "243000000000",       // без +
-
-  // ✅ ЧЕСТНАЯ СТАТИСТИКА (без “реального онлайна”)
-  DAILY_PLAYERS_MIN: 930,
-  DAILY_PLAYERS_MAX: 1100,
-
-  // Показывать “оценку активности сейчас” (НЕ real-time)
-  SHOW_ACTIVITY_ESTIMATE: true
+  WHATSAPP_NUMBER: "243000000000"       // без +
 };
