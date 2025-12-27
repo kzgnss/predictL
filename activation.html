@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Activation · Dépôt</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="shell">
+      <div class="card">
+        <div class="head">
+          <div class="brand">
+            <div class="logo"></div>
+            <div class="hgroup">
+              <h1 id="brand">Activation · Kinshasa</h1>
+              <p>Le dépôt se fait uniquement sur le site officiel.</p>
+            </div>
+          </div>
+          <div class="pills">
+            <span class="pill">👤 <span id="u">—</span></span>
+            <a class="link" href="#" id="logout">Déconnexion</a>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="hero">
+            <div class="kicker">ÉTAPE D’ACTIVATION</div>
+            <h2>Dépôt requis</h2>
+            <p class="lead">
+              Pour activer l’accès, effectuez un premier dépôt sur votre compte 1xBet
+              via le lien officiel ci-dessous.
+            </p>
+          </div>
+
+          <div class="amountBox">
+            <div>
+              <div class="k">Montant</div>
+              <div class="v" id="amt">8 000 CDF</div>
+            </div>
+            <span class="pill ok">Official redirect</span>
+          </div>
+
+          <button class="btn" id="go1xbet">Aller sur 1xBet (officiel)</button>
+
+          <div class="row2">
+            <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
+            <button class="btn secondary" id="wa">Envoyer la capture (WhatsApp)</button>
+          </div>
+
+          <div class="footer">
+            <span>18+ • Jeu responsable</span>
+            <span>Aucun paiement sur ce site</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDE PANEL -->
+      <div class="panel">
+        <div class="phead">
+          <h3>Après le dépôt</h3>
+          <p>Envoyez une preuve de recharge pour finaliser l’activation.</p>
+        </div>
+        <div class="pbody">
+          <div class="step">
+            <b>1) Ouvrir 1xBet</b>
+            <span>Cliquez sur “Aller sur 1xBet (officiel)”.</span>
+          </div>
+          <div class="step">
+            <b>2) Déposer <span id="amt2">8 000 CDF</span></b>
+            <span>Effectuez le dépôt sur le compte que vous avez créé.</span>
+          </div>
+          <div class="step">
+            <b>3) Envoyer la capture</b>
+            <span>Envoyez la capture d’écran du dépôt (preuve) via Telegram ou WhatsApp.</span>
+          </div>
+
+          <div class="footer" style="margin-top:14px">
+            <span>📍 Kinshasa</span>
+            <span>✅ Support rapide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    const A = window.APP;
+
+    if (sessionStorage.getItem("authed") !== "1") {
+      location.href = "./index.html";
+    }
+
+    document.getElementById("brand").textContent = A.BRAND || "Activation · Kinshasa";
+    document.getElementById("u").textContent = sessionStorage.getItem("user") || "—";
+
+    const amountText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
+    document.getElementById("amt").textContent = amountText;
+    document.getElementById("amt2").textContent = amountText;
+
+    document.getElementById("go1xbet").addEventListener("click", () => {
+      window.open(A.OFFICIAL_1XBET_URL, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("tg").addEventListener("click", () => {
+      const user = sessionStorage.getItem("user") || "";
+      const text = encodeURIComponent(
+        `Bonjour. J’ai effectué le dépôt ${amountText}. Login: ${user}. J’envoie la capture d’écran maintenant.`
+      );
+      window.open(`https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("wa").addEventListener("click", () => {
+      const user = sessionStorage.getItem("user") || "";
+      const text = encodeURIComponent(
+        `Bonjour. J’ai effectué le dépôt ${amountText}. Login: ${user}. J’envoie la capture d’écran maintenant.`
+      );
+      window.open(`https://wa.me/${A.WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("logout").addEventListener("click", (e) => {
+      e.preventDefault();
+      sessionStorage.clear();
+      location.href = "./index.html";
+    });
+  </script>
+</body>
+</html>
