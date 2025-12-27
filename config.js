@@ -25,11 +25,11 @@ window.APP = {
 
   // “Modules” shown in UI (rename as you want, neutral)
   MODULES: [
-    { key: "Module A", icon: "⚡" },
-    { key: "Module B", icon: "🧩" },
-    { key: "Module C", icon: "🧠" },
-    { key: "Module D", icon: "📊" },
-    { key: "Module E", icon: "🔒" },
-    { key: "Module F", icon: "🛰️" }
+    { key: "Aviator", icon: "✈️" },
+    { key: "Mines", icon: "💣" },
+    { key: "Penalty", icon: "⚽️" },
+    { key: "Apple Fortune", icon: "🍏" },
+    { key: "JetX", icon: "🚀" },
+    { key: "AviaMaster", icon: "🛩" }
   ]
 };
