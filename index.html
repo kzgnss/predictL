@@ -3,94 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Predictor · Connexion</title>
+  <title>Connexion · Predictor</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="frame">
-      <div class="topbar">
-        <div class="brand">
-          <div class="mark"></div>
-          <div>
-            <h1 id="brand">Predictor Pro · Kinshasa</h1>
-            <p id="tag">Aviator • Mines • Penalty • Chicken Road • Apple Fortune</p>
-          </div>
-        </div>
-        <div class="meta">
-          <span class="badge gold">🔒 Accès privé</span>
-          <span class="badge green">✅ Lien officiel</span>
-          <span class="badge blue">📍 Kinshasa</span>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <div class="flag">🇨🇩</div>
+        <div class="h1" id="t">Congo WinKey</div>
+        <div class="h2" id="s">Signaux rapides · Fait pour Kinshasa · CDF</div>
+
+        <div class="badges">
+          <span class="badge gold">🔒 Secure</span>
+          <span class="badge green">✅ Vérifié</span>
+          <span class="badge blue">📍 Support local</span>
         </div>
       </div>
 
-      <div class="main">
-        <!-- Left: product -->
-        <div class="card">
-          <div class="hero">
-            <div class="kicker">ESPACE CLIENT</div>
-            <h2>Connectez-vous avec vos identifiants</h2>
-            <p class="lead">
-              Saisissez le <b>login</b> et le <b>mot de passe</b> reçus en message privé.
-              Ensuite, vous verrez l’étape d’activation (dépôt sur le site officiel).
-            </p>
-          </div>
+      <div class="body">
+        <div class="sectionTitle">Connexion (identifiants reçus en privé)</div>
 
-          <div class="games">
-            <div class="g"><i>✈️</i> Aviator</div>
-            <div class="g"><i>💣</i> Mines</div>
-            <div class="g"><i>⚽</i> Penalty</div>
-            <div class="g"><i>🐔</i> Chicken Road</div>
-            <div class="g"><i>🍏</i> Apple Fortune</div>
-          </div>
-
-          <div class="form">
-            <div class="field">
-              <label>Login <small>reçu en privé</small></label>
-              <input id="login" placeholder="Votre login" autocomplete="off" />
-            </div>
-
-            <div class="field">
-              <label>Mot de passe <small>reçu en privé</small></label>
-              <input id="pass" type="password" placeholder="••••" autocomplete="off" />
-            </div>
-
-            <button class="btn" id="go">Continuer</button>
-            <div class="alert" id="msg"></div>
-          </div>
+        <div class="field">
+          <label>Login <small>privé</small></label>
+          <input id="login" placeholder="Votre login" autocomplete="off" />
         </div>
 
-        <!-- Right: steps -->
-        <div class="card">
-          <div class="side">
-            <div class="block">
-              <div class="kicker">COMMENT ÇA MARCHE</div>
+        <div class="field">
+          <label>Mot de passe <small>privé</small></label>
+          <input id="pass" type="password" placeholder="••••" autocomplete="off" />
+        </div>
 
-              <div class="step">
-                <b>1) Connexion</b>
-                <span>Accès avec vos identifiants personnels.</span>
-              </div>
+        <button class="btn" id="go">Continuer</button>
+        <div class="alert" id="msg"></div>
 
-              <div class="step">
-                <b>2) Activation</b>
-                <span>Dépôt requis via redirection vers le site officiel.</span>
-              </div>
-
-              <div class="step">
-                <b>3) Confirmation</b>
-                <span>Après le dépôt, envoyez la capture d’écran (preuve de recharge).</span>
-              </div>
-
-              <div class="step">
-                <b>Support</b>
-                <span>Validation rapide via Telegram / WhatsApp.</span>
-              </div>
-            </div>
-          </div>
+        <div class="bottom">
+          <div class="live"><span class="liveDot"></span> Accès privé</div>
+          <div class="timer">Session: <b>—</b></div>
         </div>
       </div>
 
-      <div class="footer">
+      <div class="foot">
         <span>18+ • Jeu responsable</span>
         <span>Ce site ne traite aucun paiement</span>
       </div>
@@ -101,26 +54,40 @@
   <script>
     const A = window.APP;
 
-    if (sessionStorage.getItem("authed") === "1") {
-      location.href = "./activation.html";
-    }
+    // brand text
+    document.getElementById("t").textContent = A.TITLE || "Congo WinKey";
+    document.getElementById("s").textContent = A.SUBTITLE || "";
 
-    document.getElementById("brand").textContent = A.BRAND || "Predictor Pro · Kinshasa";
-    document.getElementById("tag").textContent = A.TAGLINE || "";
+    // session timer init (shared)
+    const key = "expTs";
+    if (!sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, String(Date.now() + (A.ACCESS_TIMER_MIN || 8) * 60 * 1000));
+    }
+    const timerEl = document.querySelector(".timer b");
+    function tick(){
+      const exp = Number(sessionStorage.getItem(key) || 0);
+      const left = Math.max(0, exp - Date.now());
+      const mm = String(Math.floor(left/60000)).padStart(2,"0");
+      const ss = String(Math.floor((left%60000)/1000)).padStart(2,"0");
+      timerEl.textContent = `${mm}:${ss}`;
+    }
+    tick(); setInterval(tick, 500);
+
+    if (sessionStorage.getItem("authed") === "1") location.href = "./app.html";
 
     const msg = document.getElementById("msg");
-    const show = (t) => { msg.style.display="block"; msg.textContent=t; };
+    const show = (t)=>{ msg.style.display="block"; msg.textContent=t; };
 
-    document.getElementById("go").addEventListener("click", () => {
+    document.getElementById("go").addEventListener("click", ()=>{
       const l = document.getElementById("login").value.trim();
       const p = document.getElementById("pass").value.trim();
 
-      if (!l || !p) return show("Veuillez saisir votre login et votre mot de passe.");
-      if (l !== A.LOGIN || p !== A.PASS) return show("Identifiants incorrects. Vérifiez le message reçu.");
+      if(!l || !p) return show("Veuillez saisir votre login et votre mot de passe.");
+      if(l !== A.LOGIN || p !== A.PASS) return show("Identifiants incorrects. Vérifiez le message reçu.");
 
       sessionStorage.setItem("authed","1");
       sessionStorage.setItem("user", l);
-      location.href = "./activation.html";
+      location.href = "./app.html";
     });
   </script>
 </body>
