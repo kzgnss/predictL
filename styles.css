@@ -66,6 +66,18 @@ h1{margin:0; font-size:16px; font-weight:1000; letter-spacing:.2px}
 
 .body{padding: 10px 22px 22px}
 
+.row{display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  font-size:12px; font-weight:900;
+  color: rgba(247,250,255,.78);
+}
+
 .field{
   margin-top:12px;
   background: rgba(0,0,0,.20);
@@ -115,21 +127,15 @@ input::placeholder{color: rgba(247,250,255,.45)}
   box-shadow: none;
 }
 
-.row{display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
-@media (max-width:520px){.row{grid-template-columns:1fr}}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  font-size:12px;
-  font-weight:900;
-  color: rgba(247,250,255,.78);
+.msg{
+  margin-top:12px;
+  padding:12px;
+  border-radius:16px;
+  font-size:13px;
+  display:none;
 }
+.msg.error{background: rgba(251,113,133,.10); border: 1px solid rgba(251,113,133,.25)}
+.msg.ok{background: rgba(52,211,153,.10); border: 1px solid rgba(52,211,153,.25)}
 
 .amount{
   margin-top:14px;
@@ -144,20 +150,29 @@ input::placeholder{color: rgba(247,250,255,.45)}
 }
 .amount b{font-size:22px; letter-spacing:.4px}
 
-.msg{
-  margin-top:12px;
-  padding:12px;
-  border-radius:16px;
-  font-size:13px;
-  display:none;
+.stats{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
 }
-.msg.error{background: rgba(251,113,133,.10); border: 1px solid rgba(251,113,133,.25)}
-.msg.ok{background: rgba(52,211,153,.10); border: 1px solid rgba(52,211,153,.25)}
+@media (max-width:520px){ .stats{grid-template-columns:1fr} }
+
+.stat{
+  padding:14px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+}
+.stat .k{font-size:12px;font-weight:900;color:rgba(247,250,255,.70)}
+.stat .v{margin-top:6px;font-size:18px;font-weight:1000;letter-spacing:.2px}
+.stat .s{margin-top:6px;font-size:12px;color:rgba(247,250,255,.58);line-height:1.45}
 
 .note{
-  margin-top:12px;
+  margin-top:10px;
   font-size:11px;
   color: rgba(247,250,255,.52);
+  line-height:1.45;
   display:flex;
   justify-content:space-between;
   gap:10px;
