@@ -4,7 +4,6 @@
   --text:#F5F7FF;
   --muted:rgba(245,247,255,.68);
   --muted2:rgba(245,247,255,.52);
-
   --border:rgba(255,255,255,.10);
 
   --gold:#FACC15;
@@ -34,7 +33,7 @@ body{
   padding:28px;
 }
 
-.wrap{width:min(820px,100%)}
+.wrap{width:min(860px,100%)}
 
 .card{
   border-radius: var(--r);
@@ -236,19 +235,24 @@ a.link{
   font-weight:1000;
 }
 
-/* ===== MODAL (best UX) ===== */
+/* MODAL (centered hard) */
 .modal{
-  position:fixed;
-  inset:0;
+  position: fixed;
+  left:0; top:0;
+  width:100vw; height:100vh;
   display:none;
-  align-items:center;
-  justify-content:center;
-  padding:22px;
-  background: rgba(0,0,0,.58);
-  z-index:999;
+  background: rgba(0,0,0,.62);
+  z-index: 99999;
 }
+.modal.isOpen{display:block}
+.modalCenter{
+  position:absolute;
+  left:50%; top:50%;
+  transform: translate(-50%, -50%);
+  width: min(640px, calc(100vw - 44px));
+}
+
 .modalCard{
-  width:min(640px,100%);
   border-radius:18px;
   border:1px solid rgba(255,255,255,.12);
   background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
@@ -273,8 +277,7 @@ a.link{
 }
 .modalHead b{font-size:18px;font-weight:1200;letter-spacing:.2px}
 .modalClose{
-  border:0;
-  cursor:pointer;
+  border:0; cursor:pointer;
   width:44px;height:44px;
   border-radius:14px;
   color: rgba(245,247,255,.90);
@@ -284,51 +287,14 @@ a.link{
 }
 
 .modalBody{padding:16px 18px 18px}
-
 .modalText{
-  margin:0 0 12px;
+  margin:0 0 10px;
   color: rgba(245,247,255,.92);
   font-size: 16.5px;
   line-height: 1.6;
   font-weight: 900;
 }
-
-/* Big amount */
-.amountPill{
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(250,204,21,.28);
-  background: linear-gradient(90deg, rgba(250,204,21,.16), rgba(34,197,94,.12));
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.amountPill .left{display:flex;flex-direction:column;gap:4px}
-.amountPill .k{
-  font-size: 12px;
-  font-weight: 1000;
-  color: rgba(245,247,255,.72);
-  letter-spacing: .4px;
-}
-.amountPill .v{
-  font-size: 30px;
-  font-weight: 1300;
-  letter-spacing: .2px;
-}
-.amountPill .tag{
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  font-size:12px;
-  font-weight:1000;
-  color: rgba(245,247,255,.82);
-}
-
 .modalActions{display:grid; gap:10px; margin-top: 12px}
-
 .modalHint{
   margin-top: 10px;
   padding: 12px;
@@ -340,7 +306,6 @@ a.link{
   line-height: 1.5;
   white-space: pre-line;
 }
-
 .modalSmall{
   margin-top: 10px;
   font-size: 11.5px;
