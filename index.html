@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accès · Dépôt 1xBet</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --text:#f8fafc;
+      --muted: rgba(248,250,252,.70);
+      --accent:#facc15;
+      --accent2:#f59e0b;
+      --danger:#fb7185;
+      --ok:#34d399;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 70% 20%, rgba(250,204,21,.10), transparent 55%),
+        radial-gradient(900px 700px at 20% 80%, rgba(245,158,11,.08), transparent 55%),
+        linear-gradient(180deg, #030614, #050816);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+    }
+    .wrap{width:min(980px,100%)}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; margin-bottom:14px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; user-select:none}
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(250,204,21,.18);
+      position:relative;
+    }
+    .logo::after{
+      content:""; position:absolute; inset:7px; border-radius:10px;
+      background: linear-gradient(135deg, rgba(0,0,0,.25), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.16);
+    }
+    .brand h1{margin:0; font-size:15px; font-weight:900; letter-spacing:.2px}
+    .brand p{margin:0; font-size:12px; color:var(--muted)}
+    .controls{display:flex; gap:10px; align-items:center}
+    .pill{
+      display:flex; align-items:center; gap:8px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:8px 10px;
+      border-radius:999px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.20);
+    }
+    select, input{font: inherit; color:var(--text); background:transparent; border:0; outline:none}
+    .pill select{cursor:pointer}
+    .pill option{color:#0b1220}
+    .ghost{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      display:none;
+    }
+    .ghost:hover{transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(250,204,21,.35)}
+
+    .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:18px}
+    @media (max-width: 880px){.grid{grid-template-columns:1fr}}
+
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHeader{
+      padding:18px 18px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .title{margin:0; font-size:16px; font-weight:1000}
+    .subtitle{margin:6px 0 0; font-size:13px; color:var(--muted); line-height:1.45}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      background: rgba(250,204,21,.10);
+      border:1px solid rgba(250,204,21,.28);
+      color: rgba(250,204,21,.95);
+      font-size:12px; font-weight:900; white-space:nowrap;
+    }
+
+    .content{padding:18px}
+    .steps{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px}
+    .step{
+      flex:1; min-width: 180px;
+      padding:12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .step b{display:block; font-size:12px}
+    .step span{display:block; font-size:12px; color:var(--muted); margin-top:4px}
+    .step.active{border-color: rgba(250,204,21,.35); background: rgba(250,204,21,.06)}
+
+    .form{display:grid; gap:12px; margin-top:10px}
+    .field{
+      padding:12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
+    .field label{
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:12px; font-weight:900; margin-bottom:8px;
+      color: rgba(248,250,252,.88);
+    }
+    .field small{color:var(--muted); font-weight:800}
+    .field input{
+      width:100%; padding:10px; border-radius:12px;
+      background: rgba(0,0,0,.15);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .btn{
+      width:100%;
+      border:0; border-radius:14px;
+      padding:14px;
+      font-weight:1000;
+      cursor:pointer;
+      color:#0b1220;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 16px 40px rgba(250,204,21,.22), 0 0 0 1px rgba(250,204,21,.30);
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+    }
+    .btn:hover{transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 50px rgba(250,204,21,.28), 0 0 0 1px rgba(250,204,21,.55)}
+    .btn:active{transform: translateY(0) scale(.99)}
+    .btn.secondary{
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+    }
+
+    .msg{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      font-size:13px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      display:none;
+    }
+    .msg.error{border-color: rgba(251,113,133,.35); background: rgba(251,113,133,.08)}
+    .msg.ok{border-color: rgba(52,211,153,.35); background: rgba(52,211,153,.08)}
+
+    .amounts{display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:10px}
+    @media (max-width: 520px){.amounts{grid-template-columns: repeat(2,1fr)}}
+    .amt{
+      padding:12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      text-align:center;
+      font-weight:1000;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease;
+      user-select:none;
+    }
+    .amt:hover{transform: translateY(-1px); border-color: rgba(250,204,21,.35); background: rgba(250,204,21,.06)}
+    .amt.active{border-color: rgba(250,204,21,.55); background: rgba(250,204,21,.10)}
+    .note{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+    .side{padding:18px}
+    .box{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      margin-top:10px;
+    }
+    .box h3{margin:0; font-size:13px}
+    .box p{margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.45}
+    .foot{margin-top:14px; text-align:center; font-size:11px; color: rgba(248,250,252,.55)}
+    a.link{color: rgba(250,204,21,.95); text-decoration:none; font-weight:900}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1 id="ui_brand">Portail · 1xBet Deposit</h1>
+          <p id="ui_tag">Connexion → Choisir montant → Redirection officielle</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="pill">
+          <span style="font-size:12px;color:var(--muted);font-weight:900">🌍</span>
+          <select id="lang">
+            <option value="fr" selected>FR</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+        <button class="ghost" id="logoutBtn">↩︎ <span id="ui_logout">Déconnexion</span></button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- MAIN -->
+      <div class="card">
+        <div class="cardHeader">
+          <div>
+            <h2 class="title" id="ui_title">Connexion</h2>
+            <p class="subtitle" id="ui_subtitle">Entrez vos identifiants pour continuer.</p>
+          </div>
+          <div class="badge" id="ui_badge">✅ OFFICIAL REDIRECT</div>
+        </div>
+
+        <div class="content">
+          <div class="steps">
+            <div class="step active" id="step1">
+              <b id="ui_step1">Étape 1</b>
+              <span id="ui_step1d">Connexion</span>
+            </div>
+            <div class="step" id="step2">
+              <b id="ui_step2">Étape 2</b>
+              <span id="ui_step2d">Dépôt (sur 1xBet)</span>
+            </div>
+          </div>
+
+          <!-- LOGIN -->
+          <div id="loginView">
+            <div class="form">
+              <div class="field">
+                <label><span id="ui_login">Login</span><small>ex: EGPGOW</small></label>
+                <input id="login" placeholder="EGPGOW" autocomplete="off" />
+              </div>
+              <div class="field">
+                <label><span id="ui_pass">Mot de passe</span><small>ex: 7775</small></label>
+                <input id="pass" type="password" placeholder="••••" autocomplete="off" />
+              </div>
+              <button class="btn" id="loginBtn">🚀 <span id="ui_enter">Continuer</span></button>
+              <div class="msg error" id="loginMsg"></div>
+            </div>
+
+            <div class="note" id="ui_note1">
+              🔞 18+ uniquement. Jeu responsable. Cette page ne traite aucun paiement — elle redirige vers le site officiel.
+            </div>
+          </div>
+
+          <!-- DEPOSIT -->
+          <div id="depositView" style="display:none">
+            <div class="field">
+              <label>
+                <span id="ui_choose">Choisissez un montant requis</span>
+                <small id="ui_currency">Devise: CDF</small>
+              </label>
+
+              <div class="amounts" id="amountGrid"></div>
+
+              <div class="note" id="ui_note2">
+                Vous serez redirigé vers 1xBet pour effectuer le dépôt sur la page officielle.
+              </div>
+
+              <button class="btn" id="go1xbetBtn" style="margin-top:12px" disabled>
+                🔗 <span id="ui_go">Aller sur 1xBet (officiel)</span>
+              </button>
+
+              <button class="btn secondary" id="backBtn" style="margin-top:10px">
+                ← <span id="ui_back">Retour</span>
+              </button>
+
+              <div class="msg ok" id="depositMsg"></div>
+            </div>
+
+            <div class="foot">
+              <span id="ui_footer">Совет: используй только официальный партнёрский линк и юридические дисклеймеры под своё GEO.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDE -->
+      <div class="card">
+        <div class="cardHeader">
+          <div>
+            <h2 class="title" id="ui_side_title">Configuration</h2>
+            <p class="subtitle" id="ui_side_sub">Меняешь ссылку/суммы — и готово.</p>
+          </div>
+        </div>
+        <div class="side">
+          <div class="box">
+            <h3>🔗 Affiliate URL</h3>
+            <p>Вставь свой официальный партнёрский линк 1xBet в настройках (внутри файла).</p>
+          </div>
+          <div class="box">
+            <h3>💰 Required amounts</h3>
+            <p>Список кнопок задаётся массивом сумм. Пользователь выбирает сумму → активируется кнопка редиректа.</p>
+          </div>
+          <div class="box">
+            <h3>🛡️ Compliance</h3>
+            <p>Добавь “18+”, “responsible gambling”, политику и соответствие законам GEO.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===================== НАСТРОЙКИ =====================
+    const CONFIG = {
+      // 1) ТВОЯ официальная партнерская ссылка 1xBet (вставь сюда):
+      AFFILIATE_URL: "https://example.com/your-official-1xbet-partner-link",
+
+      // 2) Логин/пароль (как ты писал):
+      LOGIN: "EGPGOW",
+      PASS: "7775",
+
+      // 3) Валюта и требуемые суммы:
+      CURRENCY: "CDF",
+      REQUIRED_AMOUNTS: [5000, 10000, 20000, 50000, 100000, 150000],
+
+      // 4) Как открывать 1xBet:
+      OPEN_IN_NEW_TAB: true
+    };
+    // =====================================================
+
+    const $ = (id) => document.getElementById(id);
+
+    const state = { authed:false, lang:"fr", selectedAmount:null };
+
+    const dict = {
+      fr: {
+        brand:"Portail · 1xBet Deposit",
+        tag:"Connexion → Choisir montant → Redirection officielle",
+        logout:"Déconnexion",
+        titleLogin:"Connexion",
+        subLogin:"Entrez vos identifiants pour continuer.",
+        step1:"Étape 1", step1d:"Connexion",
+        step2:"Étape 2", step2d:"Dépôt (sur 1xBet)",
+        login:"Login", pass:"Mot de passe",
+        enter:"Continuer",
+        note1:"🔞 18+ uniquement. Jeu responsable. Cette page ne traite aucun paiement — elle redirige vers le site officiel.",
+        titleDep:"Dépôt requis",
+        subDep:"Sélectionnez un montant puis cliquez sur “Aller sur 1xBet”.",
+        choose:"Choisissez un montant requis",
+        note2:"Vous serez redirigé vers 1xBet pour effectuer le dépôt sur la page officielle.",
+        go:"Aller sur 1xBet (officiel)",
+        back:"Retour",
+        footer:"Совет: используй только официальный партнёрский линк и юридические дисклеймеры под своё GEO.",
+        errEmpty:"Veuillez remplir les champs.",
+        errCred:"Identifiants incorrects.",
+        pick:"Veuillez sélectionner un montant."
+      },
+      en: {
+        brand:"Portal · 1xBet Deposit",
+        tag:"Login → Choose amount → Official redirect",
+        logout:"Logout",
+        titleLogin:"Login",
+        subLogin:"Enter your credentials to continue.",
+        step1:"Step 1", step1d:"Login",
+        step2:"Step 2", step2d:"Deposit (on 1xBet)",
+        login:"Login", pass:"Password",
+        enter:"Continue",
+        note1:"🔞 18+ only. Responsible gambling. This page does not process payments — it redirects to the official site.",
+        titleDep:"Required deposit",
+        subDep:"Select an amount, then click “Go to 1xBet”.",
+        choose:"Select a required amount",
+        note2:"You will be redirected to 1xBet to complete the deposit on the official page.",
+        go:"Go to 1xBet (official)",
+        back:"Back",
+        footer:"Tip: use only your official partner link + legal disclaimers for your GEO.",
+        errEmpty:"Please fill in the fields.",
+        errCred:"Wrong credentials.",
+        pick:"Please select an amount."
+      }
+    };
+
+    function applyLang(){
+      const t = dict[state.lang];
+      $("ui_brand").textContent = t.brand;
+      $("ui_tag").textContent = t.tag;
+      $("ui_logout").textContent = t.logout;
+
+      if(!state.authed){
+        $("ui_title").textContent = t.titleLogin;
+        $("ui_subtitle").textContent = t.subLogin;
+      } else {
+        $("ui_title").textContent = t.titleDep;
+        $("ui_subtitle").textContent = t.subDep;
+      }
+
+      $("ui_step1").textContent = t.step1;
+      $("ui_step1d").textContent = t.step1d;
+      $("ui_step2").textContent = t.step2;
+      $("ui_step2d").textContent = t.step2d;
+
+      $("ui_login").textContent = t.login;
+      $("ui_pass").textContent = t.pass;
+      $("ui_enter").textContent = t.enter;
+
+      $("ui_note1").textContent = t.note1;
+
+      $("ui_choose").textContent = t.choose;
+      $("ui_currency").textContent = "Devise: " + CONFIG.CURRENCY;
+
+      $("ui_note2").textContent = t.note2;
+      $("ui_go").textContent = t.go;
+      $("ui_back").textContent = t.back;
+      $("ui_footer").textContent = t.footer;
+    }
+
+    function setAuth(on){
+      state.authed = on;
+      $("logoutBtn").style.display = on ? "inline-flex" : "none";
+      $("loginView").style.display = on ? "none" : "block";
+      $("depositView").style.display = on ? "block" : "none";
+      $("step1").classList.toggle("active", !on);
+      $("step2").classList.toggle("active", on);
+      $("loginMsg").style.display = "none";
+      $("depositMsg").style.display = "none";
+      $("go1xbetBtn").disabled = true;
+      state.selectedAmount = null;
+
+      renderAmounts();
+      applyLang();
+    }
+
+    function showMsg(el, text, type){
+      el.style.display = "block";
+      el.textContent = text;
+      el.className = "msg " + (type || "");
+    }
+
+    function renderAmounts(){
+      const grid = $("amountGrid");
+      grid.innerHTML = "";
+      CONFIG.REQUIRED_AMOUNTS.forEach((amt)=>{
+        const btn = document.createElement("div");
+        btn.className = "amt";
+        btn.textContent = amt.toLocaleString("fr-FR") + " " + CONFIG.CURRENCY;
+        btn.addEventListener("click", ()=>{
+          [...grid.querySelectorAll(".amt")].forEach(x=>x.classList.remove("active"));
+          btn.classList.add("active");
+          state.selectedAmount = amt;
+          $("go1xbetBtn").disabled = false;
+          $("depositMsg").style.display = "none";
+        });
+        grid.appendChild(btn);
+      });
+    }
+
+    function buildRedirectUrl(){
+      // ВАЖНО:
+      // Не факт, что 1xBet принимает параметр суммы через URL.
+      // Мы добавляем amount как метку, чтобы тебе/менеджеру было проще логировать выбор.
+      // Если 1xBet/трекинг принимает конкретный формат — заменишь здесь.
+      const base = CONFIG.AFFILIATE_URL;
+      const sep = base.includes("?") ? "&" : "?";
+      const amount = encodeURIComponent(String(state.selectedAmount || ""));
+      const currency = encodeURIComponent(CONFIG.CURRENCY);
+      return base + sep + "amount=" + amount + "&currency=" + currency;
+    }
+
+    // init
+    $("lang").addEventListener("change", (e)=>{
+      state.lang = e.target.value;
+      applyLang();
+    });
+
+    $("loginBtn").addEventListener("click", ()=>{
+      const t = dict[state.lang];
+      const l = $("login").value.trim();
+      const p = $("pass").value.trim();
+      if(!l || !p){
+        showMsg($("loginMsg"), t.errEmpty, "error");
+        return;
+      }
+      if(l !== CONFIG.LOGIN || p !== CONFIG.PASS){
+        showMsg($("loginMsg"), t.errCred, "error");
+        return;
+      }
+      setAuth(true);
+    });
+
+    $("logoutBtn").addEventListener("click", ()=>{
+      $("login").value = "";
+      $("pass").value = "";
+      setAuth(false);
+    });
+
+    $("backBtn").addEventListener("click", ()=>{
+      setAuth(false);
+    });
+
+    $("go1xbetBtn").addEventListener("click", ()=>{
+      const t = dict[state.lang];
+      if(!state.selectedAmount){
+        showMsg($("depositMsg"), t.pick, "error");
+        return;
+      }
+      const url = buildRedirectUrl();
+      showMsg($("depositMsg"), "✅ Redirect: " + state.selectedAmount + " " + CONFIG.CURRENCY, "ok");
+
+      if(CONFIG.OPEN_IN_NEW_TAB){
+        window.open(url, "_blank", "noopener,noreferrer");
+      } else {
+        window.location.href = url;
+      }
+    });
+
+    // start
+    renderAmounts();
+    applyLang();
+    setAuth(false);
+  </script>
+</body>
+</html>
