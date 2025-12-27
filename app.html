@@ -5,138 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="./styles.css" />
-
-  <style>
-    /* HARD FIX: modal always centered even if parent has transform */
-    .modal{
-      position: fixed;
-      left: 0; top: 0;
-      width: 100vw; height: 100vh;
-      display: none;
-      background: rgba(0,0,0,.62);
-      z-index: 99999;
-    }
-    .modal.isOpen{ display:block; }
-
-    .modalCenter{
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: min(640px, calc(100vw - 44px));
-    }
-
-    /* Make deposit info BIG */
-    .modalCard{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow: 0 30px 90px rgba(0,0,0,.70);
-      overflow:hidden;
-      backdrop-filter: blur(12px);
-      animation: pop .18s ease-out forwards;
-    }
-    @keyframes pop{from{transform:translateY(8px) scale(.985);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-
-    .modalHead{
-      padding:16px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(900px 260px at 20% 0%, rgba(250,204,21,.14), transparent 58%),
-        radial-gradient(900px 260px at 85% 0%, rgba(96,165,250,.12), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    }
-    .modalHead b{font-size:18px;font-weight:1200;letter-spacing:.2px}
-    .modalClose{
-      border:0;
-      cursor:pointer;
-      width:44px;height:44px;
-      border-radius:14px;
-      color: rgba(245,247,255,.90);
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.14);
-      font-size:22px;
-    }
-    .modalBody{padding:16px 18px 18px}
-
-    .modalText{
-      margin:0 0 12px;
-      color: rgba(245,247,255,.92);
-      font-size: 16.5px;
-      line-height: 1.6;
-      font-weight: 900;
-    }
-
-    .amountPill{
-      margin-top: 12px;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(250,204,21,.28);
-      background: linear-gradient(90deg, rgba(250,204,21,.16), rgba(34,197,94,.12));
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .amountPill .left{display:flex;flex-direction:column;gap:4px}
-    .amountPill .k{
-      font-size: 12px;
-      font-weight: 1000;
-      color: rgba(245,247,255,.72);
-      letter-spacing: .4px;
-    }
-    .amountPill .v{
-      font-size: 30px;
-      font-weight: 1300;
-      letter-spacing: .2px;
-    }
-    .amountPill .tag{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      font-size:12px;
-      font-weight:1000;
-      color: rgba(245,247,255,.82);
-      white-space: nowrap;
-    }
-
-    .modalActions{display:grid; gap:10px; margin-top: 12px}
-
-    .modalHint{
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(34,197,94,.25);
-      background: rgba(34,197,94,.10);
-      color: rgba(245,247,255,.92);
-      font-size: 13px;
-      line-height: 1.5;
-      white-space: pre-line;
-    }
-    .modalSmall{
-      margin-top: 10px;
-      font-size: 11.5px;
-      color: rgba(245,247,255,.52);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-  </style>
 </head>
-
 <body>
   <div class="wrap">
     <div class="card">
       <div class="head">
         <div class="logo">🧭</div>
         <div class="h1" id="brand">Congo WinKey</div>
-        <div class="h2" id="sub">Activation externe • Fait pour Kinshasa • CDF</div>
+        <div class="h2" id="sub">Accès privé • Fait pour Kinshasa • CDF</div>
 
         <div class="badges">
           <span class="badge gold">🔒 Secure</span>
@@ -157,8 +33,8 @@
 
         <div style="height:12px"></div>
 
-        <div class="sectionTitle">Choisissez votre module</div>
-        <div class="games" id="modules"></div>
+        <div class="sectionTitle">Choisissez votre jeu</div>
+        <div class="games" id="games"></div>
 
         <div class="field">
           <label>Account ID <small id="hint">Entrez 10 chiffres</small></label>
@@ -198,24 +74,16 @@
         <div class="modalBody">
           <p class="modalText" id="modalText">—</p>
 
-          <div class="amountPill">
-            <div class="left">
-              <div class="k">MONTANT REQUIS</div>
-              <div class="v" id="amountBig">—</div>
-            </div>
-            <div class="tag">Site officiel</div>
-          </div>
-
           <div class="modalActions">
             <button class="btn secondary" id="official">Aller au site officiel</button>
-            <button class="btn secondary" id="tg">Envoyer la confirmation (Telegram)</button>
+            <button class="btn secondary" id="tg">Contacter le support (Telegram)</button>
           </div>
 
           <div class="modalHint" id="modalHint">—</div>
 
           <div class="modalSmall">
             <span>Ce site ne traite aucun paiement</span>
-            <span>Confirmation via Telegram</span>
+            <span>Support via Telegram</span>
           </div>
         </div>
       </div>
@@ -227,12 +95,11 @@
     const A = window.APP;
     if (sessionStorage.getItem("authed") !== "1") location.href = "./index.html";
 
-    // Brand
     document.getElementById("brand").textContent = A.BRAND || "Congo WinKey";
     document.getElementById("sub").textContent = A.SUBTITLE || "";
     document.getElementById("u").textContent = sessionStorage.getItem("user") || "—";
 
-    // Timer: reset if expired so it never shows 00:00 stuck
+    // Timer (auto reset if expired)
     const key = "expTs";
     function ensureExp(){
       const now = Date.now();
@@ -258,7 +125,7 @@
     const max = Number(A.DAILY_MAX || 1100);
     document.getElementById("daily").textContent = `${min.toLocaleString("fr-FR")}–${max.toLocaleString("fr-FR")}`;
 
-    // Online estimate
+    // Online estimate (est.)
     function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
     function mulberry32(seed){
       return function(){
@@ -287,19 +154,19 @@
     function updateOnline(){ onlineEl.textContent = `~ ${estimateOnline().toLocaleString("fr-FR")}`; }
     updateOnline(); setInterval(updateOnline, 20000);
 
-    // Modules list
-    const modulesWrap = document.getElementById("modules");
+    // Build games list
+    const gamesWrap = document.getElementById("games");
     let selected = "";
-    (A.MODULES || []).forEach(m=>{
+    (A.GAMES || []).forEach(g=>{
       const el = document.createElement("div");
       el.className = "opt";
-      el.innerHTML = `<div class="optLeft"><span class="dot"></span><b>${m.key}</b></div><i>${m.icon || "•"}</i>`;
+      el.innerHTML = `<div class="optLeft"><span class="dot"></span><b>${g.key}</b></div><i>${g.icon || "•"}</i>`;
       el.addEventListener("click", ()=>{
-        [...modulesWrap.querySelectorAll(".opt")].forEach(x=>x.classList.remove("active"));
+        [...gamesWrap.querySelectorAll(".opt")].forEach(x=>x.classList.remove("active"));
         el.classList.add("active");
-        selected = m.key;
+        selected = g.key;
       });
-      modulesWrap.appendChild(el);
+      gamesWrap.appendChild(el);
     });
 
     // ID validation
@@ -314,25 +181,21 @@
 
     const bar = document.getElementById("bar");
     const msg = document.getElementById("msg");
-    function showErr(t){
-      msg.style.display="block";
-      msg.textContent=t;
-    }
+    const showErr = (t)=>{ msg.style.display="block"; msg.textContent=t; };
 
     function validate(){
       const id = acc.value.trim();
       const L = (A.ID_LENGTH || 10);
-      if(!selected) return "Choisissez un module.";
+      if(!selected) return "Choisissez un jeu.";
       if(id.length !== L) return `Entrez ${L} chiffres pour l'ID.`;
       if(A.REQUIRED_PREFIX && !id.startsWith(A.REQUIRED_PREFIX)) return `L'ID doit commencer par ${A.REQUIRED_PREFIX}.`;
       return "";
     }
 
-    // Modal controls
+    // Modal
     const modal = document.getElementById("modal");
     const modalText = document.getElementById("modalText");
     const modalHint = document.getElementById("modalHint");
-    const amountBig = document.getElementById("amountBig");
 
     function openModal(){
       modal.classList.add("isOpen");
@@ -342,12 +205,11 @@
       modal.classList.remove("isOpen");
       modal.setAttribute("aria-hidden","true");
     }
-
     document.getElementById("closeModal").addEventListener("click", closeModal);
     modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
     document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
 
-    // Start flow
+    // Start
     document.getElementById("start").addEventListener("click", ()=>{
       const err = validate();
       if(err){ bar.style.width="0%"; return showErr(err); }
@@ -361,21 +223,17 @@
         bar.style.width = Math.min(100, p) + "%";
         if(p >= 100){
           clearInterval(t);
-
-          const amountText = `${Number(A.AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
-          amountBig.textContent = amountText;
-
           modalText.textContent = `✅ Session prête pour ${selected}.`;
           modalHint.textContent =
             `1) Ouvrez le site officiel\n` +
-            `2) Effectuez l’activation au montant indiqué\n` +
-            `3) Envoyez ensuite la confirmation sur Telegram.`;
-
+            `2) Connectez-vous à votre compte\n` +
+            `3) Si besoin, contactez le support via Telegram.`;
           openModal();
         }
       }, 220);
     });
 
+    // Buttons
     document.getElementById("official").addEventListener("click", ()=>{
       window.open(A.OFFICIAL_URL, "_blank", "noopener,noreferrer");
     });
@@ -384,7 +242,7 @@
       const user = sessionStorage.getItem("user") || "";
       const id = acc.value.trim() || "—";
       const text = encodeURIComponent(
-        `Bonjour. Je confirme l’activation.\nUser: ${user}\nID: ${id}\nModule: ${selected}\nMontant: ${Number(A.AMOUNT).toLocaleString("fr-FR")} ${A.CURRENCY}`
+        `Bonjour.\nUser: ${user}\nID: ${id}\nJeu: ${selected}\nBesoin d’assistance.`
       );
       window.open(`https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`, "_blank", "noopener,noreferrer");
     });
