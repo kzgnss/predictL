@@ -3,100 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard · Predictor</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="./styles.css" />
-
-  <style>
-    /* Modal (best UX): shows after "Démarrer" */
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 22px;
-      background: rgba(0,0,0,.58);
-      z-index: 999;
-    }
-    .modalCard {
-      width: min(560px, 100%);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow: 0 30px 90px rgba(0,0,0,.70);
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      animation: pop .18s ease-out forwards;
-    }
-    @keyframes pop {
-      from { transform: translateY(8px) scale(.98); opacity: 0; }
-      to { transform: translateY(0) scale(1); opacity: 1; }
-    }
-    .modalHead{
-      padding: 16px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: radial-gradient(900px 260px at 20% 0%, rgba(250,204,21,.14), transparent 58%),
-                  radial-gradient(900px 260px at 85% 0%, rgba(96,165,250,.12), transparent 58%),
-                  linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    }
-    .modalHead b{
-      font-size: 14px;
-      font-weight: 1100;
-      letter-spacing: .2px;
-    }
-    .modalClose{
-      border: 0;
-      cursor: pointer;
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      color: rgba(245,247,255,.85);
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      font-size: 18px;
-      line-height: 1;
-    }
-    .modalBody{ padding: 16px 18px 18px; }
-    .modalText{
-      margin: 0 0 12px;
-      color: rgba(245,247,255,.72);
-      font-size: 13.5px;
-      line-height: 1.55;
-    }
-    .modalHint{
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(34,197,94,.25);
-      background: rgba(34,197,94,.10);
-      color: rgba(245,247,255,.92);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .modalActions{ display:grid; gap:10px; margin-top: 12px; }
-    .modalSmall{
-      margin-top: 10px;
-      font-size: 11.5px;
-      color: rgba(245,247,255,.52);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-  </style>
 </head>
-
 <body>
   <div class="wrap">
     <div class="card">
       <div class="head">
-        <div class="flag">🇨🇩</div>
-        <div class="h1" id="t">Congo WinKey</div>
-        <div class="h2" id="s">Signaux rapides · Fait pour Kinshasa · CDF</div>
+        <div class="logo">🧭</div>
+        <div class="h1" id="brand">Congo WinKey</div>
+        <div class="h2" id="sub">Activation externe • Fait pour Kinshasa • CDF</div>
 
         <div class="badges">
           <span class="badge gold">🔒 Secure</span>
@@ -117,18 +33,11 @@
 
         <div style="height:12px"></div>
 
-        <div class="sectionTitle">Choisissez votre jeu</div>
-        <div class="games" id="games">
-          <div class="opt" data-game="Aviator"><div class="optLeft"><span class="dot"></span><b>Aviator</b></div><i>✈️</i></div>
-          <div class="opt" data-game="Mines"><div class="optLeft"><span class="dot"></span><b>Mines</b></div><i>💣</i></div>
-          <div class="opt" data-game="Penalty"><div class="optLeft"><span class="dot"></span><b>Penalty</b></div><i>⚽</i></div>
-          <div class="opt" data-game="Chicken Road"><div class="optLeft"><span class="dot"></span><b>Chicken Road</b></div><i>🐔</i></div>
-          <div class="opt" data-game="Apple Fortune"><div class="optLeft"><span class="dot"></span><b>Apple Fortune</b></div><i>🍏</i></div>
-          <div class="opt" data-game="Crash"><div class="optLeft"><span class="dot"></span><b>Crash</b></div><i>💥</i></div>
-        </div>
+        <div class="sectionTitle">Choisissez votre module</div>
+        <div class="games" id="modules"></div>
 
         <div class="field">
-          <label>1xBet Account ID <small id="hint">Entrez 10 chiffres</small></label>
+          <label>Account ID <small id="hint">Entrez 10 chiffres</small></label>
           <input id="acc" inputmode="numeric" placeholder="Ex: 1471234567" maxlength="10" />
         </div>
 
@@ -143,41 +52,46 @@
             <span class="liveDot"></span>
             <span>En ligne (est.): <b id="online">—</b></span>
           </div>
-          <div class="timer">Joueurs / jour: <b id="daily">—</b></div>
+          <div class="timer">Utilisateurs / jour: <b id="daily">—</b></div>
         </div>
       </div>
 
       <div class="foot">
-        <span>18+ • Jeu responsable</span>
-        <span>Paiements uniquement sur 1xBet</span>
+        <span>18+ • Utilisation responsable</span>
+        <span>Redirection uniquement vers le site officiel</span>
       </div>
     </div>
   </div>
 
-  <!-- MODAL (shows after "Démarrer") -->
+  <!-- MODAL -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modalHead">
         <b id="modalTitle">Activation</b>
         <button class="modalClose" id="closeModal" aria-label="Fermer">✕</button>
       </div>
+
       <div class="modalBody">
-        <p class="modalText" id="modalText">
-          —
-        </p>
+        <p class="modalText" id="modalText">—</p>
+
+        <div class="amountPill">
+          <div class="left">
+            <div class="k">MONTANT REQUIS</div>
+            <div class="v" id="amountBig">—</div>
+          </div>
+          <div class="tag">Site officiel</div>
+        </div>
 
         <div class="modalActions">
-          <button class="btn secondary" id="deposit">💳 Faire un dépôt</button>
-          <button class="btn secondary" id="tg">Envoyer la capture (Telegram)</button>
+          <button class="btn secondary" id="official">Aller au site officiel</button>
+          <button class="btn secondary" id="tg">Envoyer la confirmation (Telegram)</button>
         </div>
 
-        <div class="modalHint" id="modalHint">
-          —
-        </div>
+        <div class="modalHint" id="modalHint">—</div>
 
         <div class="modalSmall">
           <span>Ce site ne traite aucun paiement</span>
-          <span>Validation via capture</span>
+          <span>Confirmation via Telegram</span>
         </div>
       </div>
     </div>
@@ -186,17 +100,16 @@
   <script src="./config.js"></script>
   <script>
     const A = window.APP;
-
     if (sessionStorage.getItem("authed") !== "1") location.href = "./index.html";
 
-    document.getElementById("t").textContent = A.TITLE || "Congo WinKey";
-    document.getElementById("s").textContent = A.SUBTITLE || "";
+    document.getElementById("brand").textContent = A.BRAND;
+    document.getElementById("sub").textContent = A.SUBTITLE;
     document.getElementById("u").textContent = sessionStorage.getItem("user") || "—";
 
     // Timer
     const key = "expTs";
     if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, String(Date.now() + (A.ACCESS_TIMER_MIN || 8) * 60 * 1000));
+      sessionStorage.setItem(key, String(Date.now() + (A.SESSION_MIN || 8) * 60 * 1000));
     }
     const timerEl = document.getElementById("timer");
     function tick(){
@@ -208,12 +121,12 @@
     }
     tick(); setInterval(tick, 500);
 
-    // Daily players
-    const min = Number(A.DAILY_PLAYERS_MIN || 930);
-    const max = Number(A.DAILY_PLAYERS_MAX || 1100);
+    // Daily users
+    const min = Number(A.DAILY_MIN || 930);
+    const max = Number(A.DAILY_MAX || 1100);
     document.getElementById("daily").textContent = `${min.toLocaleString("fr-FR")}–${max.toLocaleString("fr-FR")}`;
 
-    // Online estimate (est.)
+    // Online estimate (clearly labeled est.)
     function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
     function mulberry32(seed){
       return function(){
@@ -242,74 +155,72 @@
     function updateOnline(){ onlineEl.textContent = `~ ${estimateOnline().toLocaleString("fr-FR")}`; }
     updateOnline(); setInterval(updateOnline, 20000);
 
-    // Game selection
-    let selectedGame = "";
-    const gameNodes = Array.from(document.querySelectorAll(".opt"));
-    gameNodes.forEach(n=>{
-      n.addEventListener("click", ()=>{
-        gameNodes.forEach(x=>x.classList.remove("active"));
-        n.classList.add("active");
-        selectedGame = n.getAttribute("data-game") || "";
+    // Build modules
+    const modulesWrap = document.getElementById("modules");
+    let selected = "";
+    (A.MODULES || []).forEach(m=>{
+      const el = document.createElement("div");
+      el.className = "opt";
+      el.setAttribute("data-key", m.key);
+      el.innerHTML = `<div class="optLeft"><span class="dot"></span><b>${m.key}</b></div><i>${m.icon || "•"}</i>`;
+      el.addEventListener("click", ()=>{
+        [...modulesWrap.querySelectorAll(".opt")].forEach(x=>x.classList.remove("active"));
+        el.classList.add("active");
+        selected = m.key;
       });
+      modulesWrap.appendChild(el);
     });
 
     // ID validation
     const hint = document.getElementById("hint");
-    if (A.REQUIRED_PREFIX) hint.textContent = `Entrez ${A.ACCOUNT_ID_LENGTH || 10} chiffres (doit commencer par ${A.REQUIRED_PREFIX})`;
+    if (A.REQUIRED_PREFIX) hint.textContent = `Entrez ${A.ID_LENGTH || 10} chiffres (doit commencer par ${A.REQUIRED_PREFIX})`;
 
     const acc = document.getElementById("acc");
     acc.addEventListener("input", ()=>{
-      const L = (A.ACCOUNT_ID_LENGTH || 10);
+      const L = (A.ID_LENGTH || 10);
       acc.value = acc.value.replace(/\D/g,"").slice(0, L);
     });
 
-    // UI helpers
     const bar = document.getElementById("bar");
     const msg = document.getElementById("msg");
-
-    function showMsg(text){
-      msg.className = "alert";
-      msg.style.display = "block";
-      msg.textContent = text;
+    function showErr(t){
+      msg.style.display="block";
+      msg.textContent=t;
     }
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const modalText = document.getElementById("modalText");
+    const modalHint = document.getElementById("modalHint");
+    const amountBig = document.getElementById("amountBig");
+
+    function openModal(){
+      modal.style.display="flex";
+      modal.setAttribute("aria-hidden","false");
+    }
+    function closeModal(){
+      modal.style.display="none";
+      modal.setAttribute("aria-hidden","true");
+    }
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
 
     function validate(){
       const id = acc.value.trim();
-      const L = (A.ACCOUNT_ID_LENGTH || 10);
-      if(!selectedGame) return "Choisissez un jeu.";
+      const L = (A.ID_LENGTH || 10);
+      if(!selected) return "Choisissez un module.";
       if(id.length !== L) return `Entrez ${L} chiffres pour l'ID.`;
       if(A.REQUIRED_PREFIX && !id.startsWith(A.REQUIRED_PREFIX)) return `L'ID doit commencer par ${A.REQUIRED_PREFIX}.`;
       return "";
     }
 
-    // Modal logic
-    const modal = document.getElementById("modal");
-    const modalText = document.getElementById("modalText");
-    const modalHint = document.getElementById("modalHint");
-    const closeModalBtn = document.getElementById("closeModal");
-
-    function openModal(){
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden","false");
-    }
-    function closeModal(){
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden","true");
-    }
-    closeModalBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
-    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
-
-    // Start flow -> show modal AFTER progress
     document.getElementById("start").addEventListener("click", ()=>{
       const err = validate();
-      if(err){
-        bar.style.width = "0%";
-        return showMsg(err);
-      }
+      if(err){ bar.style.width="0%"; return showErr(err); }
 
-      msg.style.display = "none";
-      bar.style.width = "0%";
+      msg.style.display="none";
+      bar.style.width="0%";
 
       let p = 0;
       const t = setInterval(()=>{
@@ -318,38 +229,34 @@
         if(p >= 100){
           clearInterval(t);
 
-          const amountText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
-          modalText.textContent = `Session prête pour ${selectedGame}. Pour activer l’accès, effectuez un dépôt de ${amountText} sur 1xBet.`;
-          modalHint.textContent = `Ensuite, envoyez la capture d’écran du dépôt via Telegram pour validation.`;
+          const amountText = `${Number(A.AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
+          amountBig.textContent = amountText;
+
+          modalText.textContent = `✅ Session prête pour ${selected}.`;
+          modalHint.textContent = `1) Ouvrez le site officiel\n2) Effectuez l’activation au montant indiqué\n3) Envoyez ensuite la confirmation sur Telegram.`;
 
           openModal();
         }
       }, 220);
     });
 
-    // Deposit redirect
-    document.getElementById("deposit").addEventListener("click", ()=>{
-      window.open(A.OFFICIAL_1XBET_URL, "_blank", "noopener,noreferrer");
+    document.getElementById("official").addEventListener("click", ()=>{
+      window.open(A.OFFICIAL_URL, "_blank", "noopener,noreferrer");
     });
 
-    // Telegram send
-    function depositText(){
-      const amountText = `${Number(A.DEPOSIT_AMOUNT || 8000).toLocaleString("fr-FR")} ${A.CURRENCY || "CDF"}`;
+    document.getElementById("tg").addEventListener("click", ()=>{
       const user = sessionStorage.getItem("user") || "";
       const id = acc.value.trim() || "—";
-      const game = selectedGame || "—";
-      return `Bonjour. J’ai effectué le dépôt ${amountText}. Login: ${user}. ID: ${id}. Jeu: ${game}. J’envoie la capture d’écran maintenant.`;
-    }
-    document.getElementById("tg").addEventListener("click", ()=>{
-      const text = encodeURIComponent(depositText());
+      const text = encodeURIComponent(
+        `Bonjour. Je confirme l’activation.\nUser: ${user}\nID: ${id}\nModule: ${selected}\nMontant: ${Number(A.AMOUNT).toLocaleString("fr-FR")} ${A.CURRENCY}`
+      );
       window.open(`https://t.me/${A.TELEGRAM_USERNAME}?text=${text}`, "_blank", "noopener,noreferrer");
     });
 
-    // Logout
     document.getElementById("logout").addEventListener("click", (e)=>{
       e.preventDefault();
       sessionStorage.clear();
-      location.href = "./index.html";
+      location.href="./index.html";
     });
   </script>
 </body>
