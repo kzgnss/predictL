@@ -18,7 +18,7 @@ window.APP = {
 
   // ID rules
   ID_LENGTH: 10,
-  REQUIRED_PREFIX: "", // e.g. "147" if needed
+  REQUIRED_PREFIX: "151", // e.g. "147" if needed
 
   // UI stats
   DAILY_MIN: 930,
